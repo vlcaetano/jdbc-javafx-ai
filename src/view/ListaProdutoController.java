@@ -4,13 +4,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
 import controller.Comercial;
-import view.listeners.DataChangeListener;
-import view.util.Alerts;
-import view.util.Utils;
+import db.DbIntegrityException;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,15 +18,20 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Produto;
+import view.listeners.DataChangeListener;
+import view.util.Alerts;
+import view.util.Utils;
 
 public class ListaProdutoController implements Initializable, DataChangeListener {
 	private Comercial objBiz;
@@ -51,6 +56,9 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 	
 	@FXML
 	private TableColumn<Produto, Date> tableColumnDataCadastro;
+	
+	@FXML
+	private TableColumn<Produto, Produto> tableColumnDeletar;
 	
 	@FXML
 	private Button btNovo;
@@ -94,6 +102,7 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		List<Produto> list = objBiz.listarProdutos();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewProduto.setItems(obsList);
+		initRemoveButtons();
 	}
 	
 	private void createDialogForm(Produto obj, String absoluteName, Stage parentStage) {
@@ -110,7 +119,7 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 
 			// para carregar uma janela na frente de outra, é necessário um novo stage
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Informe os dados do produto");
+			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false); // não poder alterar o tamanho da janela
 			dialogStage.initOwner(parentStage);
@@ -125,5 +134,38 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 	@Override
 	public void onDataChanged() {
 		updateTableView();
+	}
+	
+	private void initRemoveButtons() {
+		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnDeletar.setCellFactory(param -> new TableCell<Produto, Produto>() {
+		private final Button button = new Button("deletar");
+			@Override
+			protected void updateItem(Produto obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(event -> removeEntity(obj));
+			}
+		});
+	}
+
+	private void removeEntity(Produto obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o produto?");
+		
+		if (result.get() == ButtonType.OK) {
+			if (objBiz == null) {
+				throw new IllegalStateException("ObjBiz está nulo!");
+			}
+			try {
+				objBiz.deletarProduto(obj.getCodigo());
+				updateTableView();
+			} catch (DbIntegrityException e) {
+				Alerts.showAlert("Erro ao deletar", null, e.getMessage(), AlertType.ERROR);
+			}
+		}
 	}
 }

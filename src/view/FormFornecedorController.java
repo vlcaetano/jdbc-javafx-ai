@@ -13,10 +13,6 @@ import java.util.Set;
 
 import controller.Comercial;
 import db.DbException;
-import view.listeners.DataChangeListener;
-import view.util.Alerts;
-import view.util.Constraints;
-import view.util.Utils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,12 +20,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import model.entities.Produto;
+import model.entities.Fornecedor;
+import model.exceptions.SisComException;
 import model.exceptions.ValidationException;
+import view.listeners.DataChangeListener;
+import view.util.Alerts;
+import view.util.Constraints;
+import view.util.Utils;
 
-public class FormProdutoController implements Initializable {
-	
-	private Produto entidade;
+public class FormFornecedorController implements Initializable {
+
+private Fornecedor entidade;
 	
 	private Comercial objBiz;
 	
@@ -42,16 +43,16 @@ public class FormProdutoController implements Initializable {
 	private TextField txtNome;
 	
 	@FXML
-	private TextField txtPrecoUnitario;
+	private TextField txtTelefone;
 	
 	@FXML
-	private TextField txtEstoque;
+	private TextField txtEmail;
 	
 	@FXML
-	private TextField txtEstoqueMinimo;
+	private TextField txtCnpj;
 	
-	/*@FXML
-	private TextField txtDataCadastro;*/
+	@FXML
+	private TextField txtNomeContato;
 	
 	@FXML
 	private Label labelDataCadastro;
@@ -60,13 +61,16 @@ public class FormProdutoController implements Initializable {
 	private Label labelErrorNome;
 	
 	@FXML
-	private Label labelErrorPrecoUnitario;
+	private Label labelErrorTelefone;
 	
 	@FXML
-	private Label labelErrorEstoque;
+	private Label labelErrorEmail;
 	
 	@FXML
-	private Label labelErrorEstoqueMinimo;
+	private Label labelErrorCnpj;
+	
+	@FXML
+	private Label labelErrorNomeContato;
 	
 	@FXML
 	private Button btSalvar;
@@ -74,7 +78,7 @@ public class FormProdutoController implements Initializable {
 	@FXML
 	private Button btCancelar;
 	
-	public void setProduto(Produto entidade) {
+	public void setFornecedor(Fornecedor entidade) {
 		this.entidade = entidade;
 	}
 	
@@ -96,13 +100,15 @@ public class FormProdutoController implements Initializable {
 		}
 		try {
 			entidade = getFormData();
-			objBiz.inserirProduto(entidade);
+			objBiz.inserirPessoa(entidade);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		} catch (DbException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR);
+			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR); // ver se pode apagar
 		} catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
+		} catch (SisComException e) {
+			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR);
 		}		
 	}
 
@@ -112,9 +118,9 @@ public class FormProdutoController implements Initializable {
 		}
 	}
 
-	private Produto getFormData() {
+	private Fornecedor getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Produto obj = new Produto();
+		Fornecedor obj = new Fornecedor();
 		
 		ValidationException exception = new ValidationException("Erro na validação");
 		//obj.setCodigo(Utils.tryParseToInt(txtCodigo.getText()));
@@ -125,20 +131,25 @@ public class FormProdutoController implements Initializable {
 		}
 		obj.setNome(txtNome.getText());
 		
-		if (txtPrecoUnitario.getText() == null || txtPrecoUnitario.getText().trim().equals("")) {
-			exception.addError("precoUnitario", "Preenchimento obrigatório");
+		if (txtTelefone.getText() == null || txtTelefone.getText().trim().equals("")) {
+			exception.addError("telefone", "Preenchimento obrigatório");
 		}
-		obj.setPrecoUnitario(Utils.tryParseToDouble(txtPrecoUnitario.getText()));
+		obj.setTelefone(txtTelefone.getText());
 		
-		if (txtEstoque.getText() == null || txtEstoque.getText().trim().equals("")) {
-			exception.addError("estoque", "Preenchimento obrigatório");
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+			exception.addError("email", "Preenchimento obrigatório");
 		}
-		obj.setEstoque(Utils.tryParseToInt(txtEstoque.getText()));
+		obj.setEmail(txtEmail.getText());
 		
-		if (txtEstoqueMinimo.getText() == null || txtEstoqueMinimo.getText().trim().equals("")) {
-			exception.addError("estoqueMinimo", "Preenchimento obrigatório");
+		if (txtCnpj.getText() == null || txtCnpj.getText().trim().equals("")) {
+			exception.addError("cnpj", "Preenchimento obrigatório");
 		}
-		obj.setEstoqueMinimo(Utils.tryParseToInt(txtEstoqueMinimo.getText()));
+		obj.setCnpj(txtCnpj.getText());
+		
+		if (txtNomeContato.getText() == null || txtNomeContato.getText().trim().equals("")) {
+			exception.addError("nomeContato", "Preenchimento obrigatório");
+		}
+		obj.setNomeContato(txtNomeContato.getText());
 		
 		try {
 			obj.setDataCad(sdf.parse(labelDataCadastro.getText()));
@@ -164,11 +175,11 @@ public class FormProdutoController implements Initializable {
 	}
 	
 	private void initializeNodes() {
-		//Constraints.setTextFieldInteger(txtCodigo);
 		Constraints.setTextFieldMaxLength(txtNome, 60);
-		Constraints.setTextFieldDouble(txtPrecoUnitario);
-		Constraints.setTextFieldInteger(txtEstoque);
-		Constraints.setTextFieldInteger(txtEstoqueMinimo);
+		Constraints.setTextFieldMaxLength(txtTelefone, 20);
+		Constraints.setTextFieldMaxLength(txtEmail, 60);
+		Constraints.setTextFieldMaxLength(txtCnpj, 30);
+		Constraints.setTextFieldMaxLength(txtNomeContato, 60);
 		
 		//initializeComboBoxDepartment();
 	}
@@ -179,12 +190,12 @@ public class FormProdutoController implements Initializable {
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		//txtCodigo.setText(String.valueOf(entidade.getCodigo()));
 		txtNome.setText(entidade.getNome());
 		Locale.setDefault(Locale.US);
-		txtPrecoUnitario.setText(String.format("%.2f", entidade.getPrecoUnitario()));
-		txtEstoque.setText(String.valueOf(entidade.getEstoque()));
-		txtEstoqueMinimo.setText(String.valueOf(entidade.getEstoqueMinimo()));
+		txtTelefone.setText(entidade.getTelefone());
+		txtEmail.setText(entidade.getEmail());
+		txtCnpj.setText(entidade.getCnpj());
+		txtNomeContato.setText(entidade.getNomeContato());
 		if (entidade.getDataCad() != null) {
 			labelDataCadastro.setText(sdf.format(entidade.getDataCad()));
 		} else {
@@ -196,8 +207,9 @@ public class FormProdutoController implements Initializable {
 		Set<String> fields = errors.keySet(); 
 		
 		labelErrorNome.setText(fields.contains("nome") ? errors.get("nome") : "");
-		labelErrorPrecoUnitario.setText(fields.contains("precoUnitario") ? errors.get("precoUnitario") : "");
-		labelErrorEstoque.setText(fields.contains("estoque") ? errors.get("estoque") : "");
-		labelErrorEstoqueMinimo.setText(fields.contains("estoqueMinimo") ? errors.get("estoqueMinimo") : "");
+		labelErrorTelefone.setText(fields.contains("telefone") ? errors.get("telefone") : "");
+		labelErrorEmail.setText(fields.contains("email") ? errors.get("email") : "");
+		labelErrorCnpj.setText(fields.contains("cnpj") ? errors.get("cnpj") : "");
+		labelErrorNomeContato.setText(fields.contains("nomeContato") ? errors.get("nomeContato") : "");
 	}
 }

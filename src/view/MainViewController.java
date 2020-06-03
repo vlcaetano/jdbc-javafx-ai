@@ -40,7 +40,8 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemClienteAction() {
-		loadView("/view/ListaCliente.fxml", x -> {});
+		//loadView("/view/ListaCliente.fxml", x -> {});
+		System.out.println("onMenuItemClienteAction");
 	}
 	
 	@FXML
@@ -50,7 +51,10 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemFornecedorAction() {
-		loadView("/view/ListaFornecedor.fxml", x -> {});
+		loadView("/view/ListaFornecedor.fxml", (ListaFornecedorController controller) -> {
+			controller.setObjBiz(new Comercial());
+			controller.updateTableView();
+		});
 	}
 	
 	@FXML

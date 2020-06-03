@@ -27,11 +27,12 @@
       <TableView fx:id="tableViewProduto" prefHeight="180.0" prefWidth="682.0">
         <columns>
           <TableColumn fx:id="tableColumnCodigo" prefWidth="48.0" text="Código" />
-          <TableColumn fx:id="tableColumnNome" prefWidth="206.0" text="Nome" />
+          <TableColumn fx:id="tableColumnNome" prefWidth="220.0" text="Nome" />
             <TableColumn fx:id="tableColumnPrecoUnitario" prefWidth="62.0" text="Preço Un." />
             <TableColumn fx:id="tableColumnEstoque" prefWidth="61.0" text="Estoque" />
             <TableColumn fx:id="tableColumnEstoqueMinimo" prefWidth="78.0" text="Estoque mín." />
             <TableColumn fx:id="tableColumnDataCadastro" prefWidth="110.0" text="DataCad" />
+            <TableColumn fx:id="tableColumnDeletar" prefWidth="61.0" />
         </columns>
       </TableView>
    </children>

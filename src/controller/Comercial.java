@@ -15,11 +15,6 @@ import model.entities.*;
 import model.exceptions.SisComException;
 
 public class Comercial {
-
-	/*private List<Pessoa> pessoas = new ArrayList<>();
-	private List<Produto> produtos = new ArrayList<>();
-	private List<Compra> compras;  = new ArrayList<>();
-	private List<Venda> vendas  = new ArrayList<>();*/ //Controle feito por banco de dados
 	
 	private FornecedorDao fornecedorDao = DaoFactory.criarFornecedorDao();
 	private ClienteDao clienteDao = DaoFactory.criarClienteDao();
