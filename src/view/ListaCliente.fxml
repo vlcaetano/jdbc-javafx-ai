@@ -5,11 +5,12 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="339.0" prefWidth="607.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ListaClienteController">
+<VBox prefHeight="339.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ListaClienteController">
    <children>
       <Label text="Lista de Clientes">
          <font>
@@ -22,6 +23,7 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Novo" />
+            <TextField fx:id="txtFiltrar" onKeyTyped="#onTxtFiltrarKeyTyped" promptText="Filtrar por CPF" />
         </items>
       </ToolBar>
       <TableView fx:id="tableViewCliente" prefHeight="200.0" prefWidth="200.0">
@@ -33,6 +35,7 @@
             <TableColumn fx:id="tableColumnDataCadastro" prefWidth="105.0" text="Data Cadastro" />
             <TableColumn fx:id="tableColumnCpf" prefWidth="75.0" text="CPF" />
             <TableColumn fx:id="tableColumnLimiteCredito" prefWidth="93.0" text="Limite Crédito" />
+            <TableColumn fx:id="tableColumnDeletar" prefWidth="63.0" />
         </columns>
       </TableView>
    </children>

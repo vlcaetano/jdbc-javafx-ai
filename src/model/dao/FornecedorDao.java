@@ -12,4 +12,6 @@ public interface FornecedorDao {
 	List<Fornecedor> encontrarTodos();
 	Fornecedor encontrarPorCnpj(String cnpj);
 	public List<String> estatisticaFornecedor();
+	
+	List<Fornecedor> filtrarCnpj(String cnpj);
 }

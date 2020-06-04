@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -22,6 +23,11 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Novo" />
+            <TextField fx:id="txtTeste" onKeyTyped="#onTxtTesteKeyTyped" prefHeight="25.0" prefWidth="134.0" promptText="Filtrar por CNPJ">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
         </items>
       </ToolBar>
       <TableView fx:id="tableViewFornecedor" prefHeight="200.0" prefWidth="200.0">

@@ -54,8 +54,16 @@ public class Comercial {
 		return fornecedorDao.encontrarTodos();
 	}
 	
+	public List<Fornecedor> filtrarFornecedores(String cnpj){
+		return fornecedorDao.filtrarCnpj(cnpj);
+	}
+	
 	public List<Cliente> listarClientes(){
 		return clienteDao.encontrarTodos();
+	}
+	
+	public List<Cliente> filtarClientes(String cpf){
+		return clienteDao.filtrarCpf(cpf);
 	}
 	
 	public List<Vendedor> listarVendedores(){

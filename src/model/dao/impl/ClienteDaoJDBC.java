@@ -112,6 +112,38 @@ public class ClienteDaoJDBC implements ClienteDao {
 			DB.closeStatement(st);
 		}
 	}
+	
+	@Override
+	public List<Cliente> filtrarCpf(String cpf) {
+		List<Cliente> lista = new ArrayList<>();
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT * "
+					+ "FROM cliente "
+					+ "WHERE Cpf like '" + cpf + "%'");
+			rs = st.executeQuery();
+			
+			if (!rs.next()) {
+				return null;
+			}
+			
+			do {
+				Cliente cliente = instanciarCliente(rs);
+				lista.add(cliente);
+			} while (rs.next());
+			
+			return lista;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
+	}
 
 	@Override
 	public Cliente encontrarPorCpf(String dado) {

@@ -110,6 +110,38 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 			DB.closeStatement(st);
 		}
 	}
+	
+	@Override
+	public List<Fornecedor> filtrarCnpj(String cnpj) {
+		List<Fornecedor> lista = new ArrayList<>();
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT * "
+					+ "FROM fornecedor "
+					+ "WHERE Cnpj like '" + cnpj + "%'");
+			rs = st.executeQuery();
+			
+			if (!rs.next()) {
+				return null;
+			}
+			
+			do {
+				Fornecedor fornecedor = instanciarFornecedor(rs);
+				lista.add(fornecedor);
+			} while (rs.next());
+			
+			return lista;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
+	}
 
 	@Override
 	public Fornecedor encontrarPorCnpj(String dado) {

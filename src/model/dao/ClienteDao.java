@@ -12,4 +12,6 @@ public interface ClienteDao {
 	List<Cliente> encontrarTodos();
 	Cliente encontrarPorCpf(String cpf);
 	public List<String> estatisticaCliente();
+	
+	List<Cliente> filtrarCpf(String cpf);
 }

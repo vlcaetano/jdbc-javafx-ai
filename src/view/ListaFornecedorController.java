@@ -23,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
@@ -57,12 +58,33 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 	private TableColumn<Fornecedor, Fornecedor> tableColumnDeletar;
 	
 	@FXML
+	private TextField txtTeste;
+	@FXML
+	public void onTxtTesteKeyTyped() {
+		if (objBiz == null) {
+			throw new IllegalStateException("ObjBiz está nulo!");
+		}
+		List<Fornecedor> list = objBiz.filtrarFornecedores(txtTeste.getText());
+		if (list != null) {
+			obsList = FXCollections.observableArrayList(list);
+			tableViewFornecedor.setItems(obsList);
+			initRemoveButtons();
+		} else {
+			tableViewFornecedor.setItems(null);
+		}
+		
+	}
+	
+	@FXML
 	private Button btNovo;
 	
 	private ObservableList<Fornecedor> obsList;
 	
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
+		txtTeste.setText("");
+		updateTableView();
+		
 		Stage parentStage = Utils.currentStage(event);
 		Fornecedor obj = new Fornecedor();
 		createDialogForm(obj, "/view/FormFornecedor.fxml", parentStage);
