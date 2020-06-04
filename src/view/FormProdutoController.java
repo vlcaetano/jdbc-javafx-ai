@@ -12,20 +12,20 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import controller.Comercial;
-import db.DbException;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import model.entities.Produto;
+import model.exceptions.SisComException;
+import model.exceptions.ValidationException;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
-import model.entities.Produto;
-import model.exceptions.ValidationException;
 
 public class FormProdutoController implements Initializable {
 	
@@ -99,8 +99,8 @@ public class FormProdutoController implements Initializable {
 			objBiz.inserirProduto(entidade);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
-		} catch (DbException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR);
+		} catch (SisComException e) {
+			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
 		} catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
 		}		

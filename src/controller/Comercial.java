@@ -98,7 +98,7 @@ public class Comercial {
 		return vendedorDao.estatisticaVendedor();
 	}
 	
-	public void inserirProduto(Produto produto) {
+	public void inserirProduto(Produto produto) throws SisComException {
 		produtoDao.inserirProduto(produto);
 	}
 	

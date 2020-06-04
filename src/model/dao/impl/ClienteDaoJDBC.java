@@ -61,7 +61,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 				throw new SisComException("Erro! Nenhuma linha foi alterada!");
 			}
 		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			throw new SisComException(e.getMessage());
 		} catch (DbIntegrityException e) {
 			System.out.println(e.getMessage());
 		} finally {

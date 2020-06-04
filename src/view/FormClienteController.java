@@ -12,14 +12,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import controller.Comercial;
-import db.DbException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import model.entities.Cliente;
 import model.exceptions.SisComException;
 import model.exceptions.ValidationException;
@@ -100,12 +99,10 @@ public class FormClienteController implements Initializable {
 			objBiz.inserirPessoa(entidade);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
-		} catch (DbException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR);
 		} catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
 		} catch (SisComException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMessage(), AlertType.ERROR);
+			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
 		}		
 	}
 

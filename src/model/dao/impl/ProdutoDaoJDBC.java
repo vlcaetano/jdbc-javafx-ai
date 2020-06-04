@@ -13,6 +13,7 @@ import db.DbException;
 import db.DbIntegrityException;
 import model.dao.ProdutoDao;
 import model.entities.Produto;
+import model.exceptions.SisComException;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
 
@@ -23,7 +24,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 	}
 	
 	@Override
-	public void inserirProduto(Produto obj) {
+	public void inserirProduto(Produto obj) throws SisComException {
 		
 		PreparedStatement st = null;
 		
@@ -52,10 +53,10 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				}
 				DB.closeResultSet(rs);
 			} else {
-				throw new DbException("Erro! Nenhuma linha foi alterada!");
+				throw new SisComException("Erro! Nenhuma linha foi alterada!");
 			}
 		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			throw new SisComException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 		}

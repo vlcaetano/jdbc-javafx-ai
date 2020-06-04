@@ -61,7 +61,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				throw new SisComException("Erro! Nenhuma linha foi alterada!");
 			}
 		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			throw new SisComException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 		}
