@@ -38,7 +38,7 @@ public class Comercial {
 		}
 	}
 	
-	public Fornecedor pesquisarFornecedor(String cnpj) {
+	/*public Fornecedor pesquisarFornecedor(String cnpj) {
 		return fornecedorDao.encontrarPorCnpj(cnpj);
 	}
 	
@@ -48,7 +48,7 @@ public class Comercial {
 	
 	public Vendedor pesquisarVendedor(String cpf) {
 		return vendedorDao.encontrarPorCpf(cpf);
-	}
+	}*/
 	
 	public List<Fornecedor> listarFornecedores(){
 		return fornecedorDao.encontrarTodos();
@@ -118,12 +118,20 @@ public class Comercial {
 		produtoDao.deletarProduto(cod);
 	}
 	
-	public void fazerCompra(Compra compra) {
+	public void fazerCompra(Compra compra) throws SisComException {
 		compraDao.fazerCompra(compra);
 	}
 	
 	public void deletarCompra(Integer cod) throws SisComException {
 		compraDao.deletarCompra(cod);
+	}
+	
+	public List<Compra> listarCompras() {
+		return compraDao.encontrarCompras();
+	}
+	
+	public List<ItemCompra> listarItemCompras(Integer codCompra) {
+		return compraDao.criarListaItemCompra(codCompra);
 	}
 	
 	public List<Compra> listarComprasPorFornecedor(Date dataInicio, Date dataFinal, String nome){

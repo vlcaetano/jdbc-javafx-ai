@@ -10,6 +10,9 @@ public class ItemCompra implements Serializable {
 	private Integer quantCompra;
 	private Double valorCompra;
 	
+	private Integer codProduto;
+	private String nomeProduto;
+	
 	public ItemCompra() {
 	}
 
@@ -17,6 +20,16 @@ public class ItemCompra implements Serializable {
 		this.produto = produto;
 		this.quantCompra = quantCompra;
 		this.valorCompra = (double) quantCompra * produto.getPrecoUnitario();
+		codProduto = produto.getCodigo();
+		nomeProduto = produto.getNome();
+	}
+	
+	public Integer getCodProduto() {		
+		return codProduto;
+	}
+	
+	public String getNomeProduto() {
+		return nomeProduto;
 	}
 
 	public Produto getProduto() {

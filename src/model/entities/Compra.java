@@ -14,6 +14,9 @@ public class Compra implements Serializable{
 	private List<ItemCompra> compraItens;
 	private Date dataCompra;
 	
+	private String nomeFornecedor;
+	private Double valorTotal;
+	
 	public Compra() {
 	}
 
@@ -22,6 +25,19 @@ public class Compra implements Serializable{
 		this.fornecedor = fornecedor;
 		this.compraItens = compraItens;
 		this.dataCompra = dataCompra;
+	}
+	
+	public String getNomeFornecedor() {
+		nomeFornecedor = fornecedor.getNome();
+		return nomeFornecedor;
+	}
+	
+	public Double getValorTotal() {
+		valorTotal = 0.0;
+		for (ItemCompra ic : compraItens) {
+			valorTotal += ic.getValorCompra();
+		}
+		return valorTotal;
 	}
 
 	public Integer getNumCompra() {

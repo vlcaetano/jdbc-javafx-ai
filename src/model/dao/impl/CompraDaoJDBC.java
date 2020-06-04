@@ -12,7 +12,6 @@ import java.util.Map;
 
 import db.DB;
 import db.DbException;
-import db.DbIntegrityException;
 import model.dao.CompraDao;
 import model.dao.DaoFactory;
 import model.dao.ProdutoDao;
@@ -31,7 +30,7 @@ public class CompraDaoJDBC implements CompraDao {
 	}
 
 	@Override
-	public void fazerCompra(Compra obj) {
+	public void fazerCompra(Compra obj) throws SisComException {
 		PreparedStatement st = null;
 		
 		try {
@@ -56,7 +55,7 @@ public class CompraDaoJDBC implements CompraDao {
 				}
 				DB.closeResultSet(rs);
 			} else {
-				throw new DbException("Erro! Nenhuma linha foi alterada!");
+				throw new SisComException("Erro! Nenhuma linha foi alterada!");
 			}
 			
 			for (ItemCompra ic : obj.getCompraItens()) {
@@ -64,7 +63,7 @@ public class CompraDaoJDBC implements CompraDao {
 				atualizarEstoque(ic.getProduto().adicionarQuantidade(ic.getQuantCompra()), ic.getProduto().getCodigo());
 			}
 		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
+			throw new SisComException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 		}
@@ -140,7 +139,7 @@ public class CompraDaoJDBC implements CompraDao {
 			st3.setInt(1, codCompra);			
 			st3.executeUpdate();
 		} catch (SQLException e) {
-			throw new DbIntegrityException(e.getMessage());
+			throw new SisComException(e.getMessage());
 		} finally {
 			DB.closeStatement(st);
 			DB.closeStatement(st2);
@@ -150,7 +149,7 @@ public class CompraDaoJDBC implements CompraDao {
 	}
 
 	@Override
-	public List<Compra> encontrarCompras() { //deveria fazer retornando itemcompra para usar na tabela no FX
+	public List<Compra> encontrarCompras() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
@@ -239,7 +238,8 @@ public class CompraDaoJDBC implements CompraDao {
 		return compra;
 	}
 	
-	private List<ItemCompra> criarListaItemCompra(Integer codCompra){
+	@Override
+	public List<ItemCompra> criarListaItemCompra(Integer codCompra){
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		List<ItemCompra> lista = new ArrayList<>();
