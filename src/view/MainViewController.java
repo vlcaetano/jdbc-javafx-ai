@@ -72,7 +72,10 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemVendasAction() {
-		System.out.println("onMenuItemVendasAction");
+		loadView("/view/ListaVenda.fxml", (ListaVendaController controller) -> {
+			controller.setObjBiz(new Comercial());
+			controller.updateTableView();
+		});
 	}
 	
 	@FXML

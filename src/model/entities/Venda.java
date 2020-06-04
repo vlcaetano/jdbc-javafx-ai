@@ -16,6 +16,10 @@ public class Venda implements Serializable{
 	private Integer formaPagto;
 	private Date dataVenda;
 	
+	private String nomeCliente;
+	private String nomeVendedor;
+	private Double valorTotal;
+	
 	public Venda() {
 	}
 
@@ -27,6 +31,24 @@ public class Venda implements Serializable{
 		this.vendaItens = vendaItens;
 		this.formaPagto = formaPagto;
 		this.dataVenda = dataVenda;
+	}
+	
+	public String getNomeCliente() {
+		nomeCliente = cliente.getNome();
+		return nomeCliente;
+	}
+	
+	public String getNomeVendedor() {
+		nomeVendedor = vendedor.getNome();
+		return nomeVendedor;
+	}
+	
+	public Double getValorTotal() {
+		valorTotal = 0.0;
+		for (ItemVenda iv : vendaItens) {
+			valorTotal = iv.getValorVenda();
+		}
+		return valorTotal;
 	}
 
 	public Integer getNumVenda() {

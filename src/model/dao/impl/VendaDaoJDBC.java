@@ -299,7 +299,8 @@ public class VendaDaoJDBC implements VendaDao {
 		return venda;
 	}
 	
-	private List<ItemVenda> criarListaItemVenda(Integer codVenda){
+	@Override
+	public List<ItemVenda> criarListaItemVenda(Integer codVenda){
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		List<ItemVenda> lista = new ArrayList<>();

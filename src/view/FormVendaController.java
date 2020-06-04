@@ -24,9 +24,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
-import model.entities.Compra;
-import model.entities.Fornecedor;
-import model.entities.ItemCompra;
+import model.entities.Venda;
+import model.entities.Vendedor;
+import model.entities.Cliente;
+import model.entities.ItemVenda;
 import model.entities.Produto;
 import model.exceptions.SisComException;
 import view.listeners.DataChangeListener;
@@ -34,32 +35,36 @@ import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
 
-public class FormCompraController implements Initializable {
+public class FormVendaController implements Initializable {
 
-	private Compra entidade;
+	private Venda entidade;
 	
 	private Comercial objBiz;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
 	
 	@FXML
-	private TableView<ItemCompra> tableViewItens;
+	private TableView<ItemVenda> tableViewItens;
 	
 	@FXML
-	private TableColumn<ItemCompra, Integer> tableColumnCodProduto;
+	private TableColumn<ItemVenda, Integer> tableColumnCodProduto;
 	@FXML
-	private TableColumn<ItemCompra, String> tableColumnNomeProduto;
+	private TableColumn<ItemVenda, String> tableColumnNomeProduto;
 	@FXML
-	private TableColumn<ItemCompra, Integer> tableColumnQuantidade;
+	private TableColumn<ItemVenda, Integer> tableColumnQuantidade;
 	@FXML
-	private TableColumn<ItemCompra, Double> tableColumnValorCompra;
+	private TableColumn<ItemVenda, Double> tableColumnValorVenda;
 	@FXML
-	private TableColumn<ItemCompra, ItemCompra> tableColumnX;
+	private TableColumn<ItemVenda, ItemVenda> tableColumnX;
 	
 	@FXML
-	private ComboBox<Fornecedor> comboBoxFornecedor;
+	private ComboBox<Cliente> comboBoxCliente;
+	@FXML
+	private ComboBox<Vendedor> comboBoxVendedor;
 	@FXML
 	private ComboBox<Produto> comboBoxProduto;
+	@FXML
+	private ComboBox<String> comboBoxFormaPag;
 	
 	@FXML
 	private Button btAdicionarProduto;
@@ -71,13 +76,16 @@ public class FormCompraController implements Initializable {
 	@FXML
 	private TextField txtQuantidade;
 	
-	private List<ItemCompra> listaItemCompra = new ArrayList<>();
+	private List<ItemVenda> listaItemVenda = new ArrayList<>();
 	
-	private ObservableList<Fornecedor> obsListFornecedor;
+	private ObservableList<Cliente> obsListCliente;
+	private ObservableList<Vendedor> obsListVendedor;
 	private ObservableList<Produto> obsListProduto;
-	private ObservableList<ItemCompra> obsListItemCompra;
+	private ObservableList<String> obsListFormaPag;
 	
-	public void setCompra(Compra entidade) {
+	private ObservableList<ItemVenda> obsListItemVenda;
+	
+	public void setVenda(Venda entidade) {
 		this.entidade = entidade;
 	}
 	
@@ -96,14 +104,19 @@ public class FormCompraController implements Initializable {
 			if (qtd == null || qtd == 0) {
 				throw new SisComException("Informe a quantidade");
 			}
-			ItemCompra ic = new ItemCompra(comboBoxProduto.getValue(), qtd);
+			ItemVenda iv = new ItemVenda(comboBoxProduto.getValue(), qtd);
 		
-			for (ItemCompra item : listaItemCompra) {
-				if (ic.getProduto().compareTo(item.getProduto()) == 0) {
+			if (iv.getProduto().getEstoque() < iv.getQuantVenda()) {
+				throw new SisComException("Quantidade maior que possuída no estoque. "
+						+ "Atualmente o produto possui " + iv.getProduto().getEstoque() + " unidade(s).");
+			}
+		
+			for (ItemVenda item : listaItemVenda) {
+				if (iv.getProduto().compareTo(item.getProduto()) == 0) {
 					throw new SisComException("Produto já cadastrado no pedido");
 				}
 			}
-			listaItemCompra.add(ic);
+			listaItemVenda.add(iv);
 			updateTableView();
 		} catch (SisComException e) {
 			Alerts.showAlert("Falha ao adicionar produto", null, e.getMensagemErro(), AlertType.INFORMATION);
@@ -112,8 +125,8 @@ public class FormCompraController implements Initializable {
 	}
 	
 	public void updateTableView() {
-		obsListItemCompra = FXCollections.observableArrayList(listaItemCompra);
-		tableViewItens.setItems(obsListItemCompra);
+		obsListItemVenda = FXCollections.observableArrayList(listaItemVenda);
+		tableViewItens.setItems(obsListItemVenda);
 		initRemoveButtons();
 	}
 	
@@ -127,7 +140,7 @@ public class FormCompraController implements Initializable {
 		}
 		try {
 			entidade = getFormData();
-			objBiz.fazerCompra(entidade);
+			objBiz.fazerVenda(entidade);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		} catch (SisComException e) {
@@ -141,20 +154,35 @@ public class FormCompraController implements Initializable {
 		}
 	}
 
-	private Compra getFormData() throws SisComException {
-		Compra obj = new Compra();
+	private Venda getFormData() throws SisComException {
+		Venda obj = new Venda();
 		
-		if (listaItemCompra.isEmpty()) {
+		if (listaItemVenda.isEmpty()) {
 			throw new SisComException("Ainda não foram adicionados produtos!");
 		}
 		
-		obj.setNumCompra(null);
+		obj.setNumVenda(null);
 		
-		obj.setFornecedor(comboBoxFornecedor.getValue());
+		obj.setCliente(comboBoxCliente.getValue());
 		
-		obj.setCompraItens(listaItemCompra);
+		obj.setVendedor(comboBoxVendedor.getValue());
 		
-		obj.setDataCompra(new Date());
+		obj.setVendaItens(listaItemVenda);
+		
+		obj.setDataVenda(new Date());
+		
+		if (comboBoxFormaPag.getValue().equals("À vista")) {
+			obj.setFormaPagto(1);
+		} else {
+			Double valorTotal = 0.0;
+			for (ItemVenda item : listaItemVenda) {
+				valorTotal += item.getValorVenda();
+			}
+			if (valorTotal > obj.getCliente().getLimiteCredito()) {
+				throw new SisComException("Cliente não possui limite o suficiente para a compra");
+			}
+			obj.setFormaPagto(2);
+		}
 		
 		return obj;
 	}
@@ -173,11 +201,12 @@ public class FormCompraController implements Initializable {
 		Constraints.setTextFieldInteger(txtQuantidade);
 		tableColumnCodProduto.setCellValueFactory(new PropertyValueFactory<>("codProduto"));
 		tableColumnNomeProduto.setCellValueFactory(new PropertyValueFactory<>("nomeProduto"));
-		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantCompra"));
-		tableColumnValorCompra.setCellValueFactory(new PropertyValueFactory<>("valorCompra"));
-		Utils.formatTableColumnDouble(tableColumnValorCompra, 2);
+		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantVenda"));
+		tableColumnValorVenda.setCellValueFactory(new PropertyValueFactory<>("valorVenda"));
+		Utils.formatTableColumnDouble(tableColumnValorVenda, 2);
 		
-		initializeComboBoxFornecedor();
+		initializeComboBoxCliente();
+		initializeComboBoxVendedor();
 		initializeComboBoxProduto();
 	}
 	
@@ -185,8 +214,10 @@ public class FormCompraController implements Initializable {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
 		}
-		comboBoxFornecedor.getSelectionModel().selectFirst();
+		comboBoxCliente.getSelectionModel().selectFirst();
+		comboBoxVendedor.getSelectionModel().selectFirst();
 		comboBoxProduto.getSelectionModel().selectFirst();
+		comboBoxFormaPag.getSelectionModel().selectFirst();
 	}
 	
 	public void loadAssociatedObjects() {
@@ -194,25 +225,48 @@ public class FormCompraController implements Initializable {
 			throw new IllegalStateException("ObjBiz está com valor null");
 		}
 		
-		List<Fornecedor> listaFornecedor = objBiz.listarFornecedores();
-		obsListFornecedor = FXCollections.observableArrayList(listaFornecedor);
-		comboBoxFornecedor.setItems(obsListFornecedor);
+		List<Cliente> listaCliente = objBiz.listarClientes();
+		obsListCliente = FXCollections.observableArrayList(listaCliente);
+		comboBoxCliente.setItems(obsListCliente);
+		
+		List<Vendedor> listaVendedor = objBiz.listarVendedores();
+		obsListVendedor = FXCollections.observableArrayList(listaVendedor);
+		comboBoxVendedor.setItems(obsListVendedor);
 		
 		List<Produto> listaProduto = objBiz.listarProdutos();
 		obsListProduto = FXCollections.observableArrayList(listaProduto);
 		comboBoxProduto.setItems(obsListProduto);
+		
+		List<String> listaFormaPag = new ArrayList<>();
+		listaFormaPag.add("À vista");
+		listaFormaPag.add("A prazo");
+		obsListFormaPag = FXCollections.observableArrayList(listaFormaPag);
+		comboBoxFormaPag.setItems(obsListFormaPag);
+		
 	}
 	
-	private void initializeComboBoxFornecedor() {
-		Callback<ListView<Fornecedor>, ListCell<Fornecedor>> factory = lv -> new ListCell<Fornecedor>() {
+	private void initializeComboBoxCliente() {
+		Callback<ListView<Cliente>, ListCell<Cliente>> factory = lv -> new ListCell<Cliente>() {
 			@Override
-			protected void updateItem(Fornecedor item, boolean empty) {
+			protected void updateItem(Cliente item, boolean empty) {
 				super.updateItem(item, empty);
 				setText(empty ? "" : item.getNome());
 			}
 		};
-		comboBoxFornecedor.setCellFactory(factory);
-		comboBoxFornecedor.setButtonCell(factory.call(null));
+		comboBoxCliente.setCellFactory(factory);
+		comboBoxCliente.setButtonCell(factory.call(null));
+	}
+	
+	private void initializeComboBoxVendedor() {
+		Callback<ListView<Vendedor>, ListCell<Vendedor>> factory = lv -> new ListCell<Vendedor>() {
+			@Override
+			protected void updateItem(Vendedor item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getNome());
+			}
+		};
+		comboBoxVendedor.setCellFactory(factory);
+		comboBoxVendedor.setButtonCell(factory.call(null));
 	}
 	
 	private void initializeComboBoxProduto() {
@@ -229,10 +283,10 @@ public class FormCompraController implements Initializable {
 	
 	private void initRemoveButtons() {
 		tableColumnX.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnX.setCellFactory(param -> new TableCell<ItemCompra, ItemCompra>() {
+		tableColumnX.setCellFactory(param -> new TableCell<ItemVenda, ItemVenda>() {
 		private final Button button = new Button("X");
 			@Override
-			protected void updateItem(ItemCompra obj, boolean empty) {
+			protected void updateItem(ItemVenda obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -244,8 +298,8 @@ public class FormCompraController implements Initializable {
 		});
 	}
 	
-	private void removeEntity(ItemCompra obj) {
-		listaItemCompra.remove(obj);
+	private void removeEntity(ItemVenda obj) {
+		listaItemVenda.remove(obj);
 		updateTableView();
 	}
 }

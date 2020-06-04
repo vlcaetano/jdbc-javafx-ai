@@ -38,18 +38,6 @@ public class Comercial {
 		}
 	}
 	
-	/*public Fornecedor pesquisarFornecedor(String cnpj) {
-		return fornecedorDao.encontrarPorCnpj(cnpj);
-	}
-	
-	public Cliente pesquisarCliente(String cpf) {
-		return clienteDao.encontrarPorCpf(cpf);
-	}
-	
-	public Vendedor pesquisarVendedor(String cpf) {
-		return vendedorDao.encontrarPorCpf(cpf);
-	}*/
-	
 	public List<Fornecedor> listarFornecedores(){
 		return fornecedorDao.encontrarTodos();
 	}
@@ -157,6 +145,14 @@ public class Comercial {
 	
 	public void deletarVenda(Integer cod) throws SisComException {
 		vendaDao.deletarVenda(cod);
+	}
+	
+	public List<Venda> listarVendas() {
+		return vendaDao.encontrarVendas();
+	}
+	
+	public List<ItemVenda> listarItemVendas(Integer codVenda) {
+		return vendaDao.criarListaItemVenda(codVenda);
 	}
 	
 	public List<Venda> listarVendasPorCliente(Date dataInicio, Date dataFinal, String nome){

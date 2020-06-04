@@ -10,6 +10,7 @@ public interface VendaDao {
 	void fazerVenda(Venda compra) throws SisComException;
 	void deletarVenda(Integer cod) throws SisComException;
 	List<Venda> encontrarVendas();
+	List<ItemVenda> criarListaItemVenda(Integer Venda);
 	List<Venda> encontrarVendasNomeCliente(String nome);
 	List<Venda> encontrarVendasNomeVendedor(String nome);
 }
