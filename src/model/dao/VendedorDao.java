@@ -12,4 +12,6 @@ public interface VendedorDao {
 	List<Vendedor> encontrarTodos();
 	Vendedor encontrarPorCpf(String cpf);
 	public List<String> estatisticaVendedor();
+
+	List<Vendedor> filtrarCpf(String cpf);
 }

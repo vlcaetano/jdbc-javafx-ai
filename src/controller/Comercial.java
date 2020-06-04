@@ -62,12 +62,16 @@ public class Comercial {
 		return clienteDao.encontrarTodos();
 	}
 	
-	public List<Cliente> filtarClientes(String cpf){
+	public List<Cliente> filtrarClientes(String cpf){
 		return clienteDao.filtrarCpf(cpf);
 	}
 	
 	public List<Vendedor> listarVendedores(){
 		return vendedorDao.encontrarTodos();
+	}
+	
+	public List<Vendedor> filtrarVendedores(String cpf){
+		return vendedorDao.filtrarCpf(cpf);
 	}
 	
 	public void deletarFonecedor(Fornecedor obj) {

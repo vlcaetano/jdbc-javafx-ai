@@ -110,6 +110,38 @@ public class VendedorDaoJDBC implements VendedorDao {
 			DB.closeStatement(st);
 		}
 	}
+	
+	@Override
+	public List<Vendedor> filtrarCpf(String cpf) {
+		List<Vendedor> lista = new ArrayList<>();
+		
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"SELECT * "
+					+ "FROM vendedor "
+					+ "WHERE Cpf like '" + cpf + "%'");
+			rs = st.executeQuery();
+			
+			if (!rs.next()) {
+				return null;
+			}
+			
+			do {
+				Vendedor vendedor = instanciarVendedor(rs);
+				lista.add(vendedor);
+			} while (rs.next());
+			
+			return lista;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeResultSet(rs);
+			DB.closeStatement(st);
+		}
+	}
 
 	@Override
 	public Vendedor encontrarPorCpf(String dado) {

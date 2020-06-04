@@ -29,34 +29,34 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.entities.Cliente;
+import model.entities.Vendedor;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
 
-public class ListaClienteController  implements Initializable, DataChangeListener {
+public class ListaVendedorController  implements Initializable, DataChangeListener {
 
 	private Comercial objBiz;
 	
 	@FXML
-	private TableView<Cliente> tableViewCliente;
+	private TableView<Vendedor> tableViewVendedor;
 	
 	@FXML
-	private TableColumn<Cliente, Integer> tableColumnCodigo;
+	private TableColumn<Vendedor, Integer> tableColumnCodigo;
 	@FXML
-	private TableColumn<Cliente, String> tableColumnNome;
+	private TableColumn<Vendedor, String> tableColumnNome;
 	@FXML
-	private TableColumn<Cliente, String> tableColumnTelefone;
+	private TableColumn<Vendedor, String> tableColumnTelefone;
 	@FXML
-	private TableColumn<Cliente, String> tableColumnEmail;
+	private TableColumn<Vendedor, String> tableColumnEmail;
 	@FXML
-	private TableColumn<Cliente, Date> tableColumnDataCadastro;
+	private TableColumn<Vendedor, Date> tableColumnDataCadastro;
 	@FXML
-	private TableColumn<Cliente, String> tableColumnCpf;
+	private TableColumn<Vendedor, String> tableColumnCpf;
 	@FXML
-	private TableColumn<Cliente, Double> tableColumnLimiteCredito;
+	private TableColumn<Vendedor, Double> tableColumnMetaMensal;
 	@FXML
-	private TableColumn<Cliente, Cliente> tableColumnDeletar;
+	private TableColumn<Vendedor, Vendedor> tableColumnDeletar;
 	
 	@FXML
 	private TextField txtFiltrar;
@@ -65,13 +65,13 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
 		}
-		List<Cliente> list = objBiz.filtrarClientes(txtFiltrar.getText());
+		List<Vendedor> list = objBiz.filtrarVendedores(txtFiltrar.getText());
 		if (list != null) {
 			obsList = FXCollections.observableArrayList(list);
-			tableViewCliente.setItems(obsList);
+			tableViewVendedor.setItems(obsList);
 			initRemoveButtons();
 		} else {
-			tableViewCliente.setItems(null);
+			tableViewVendedor.setItems(null);
 		}
 		
 	}
@@ -79,7 +79,7 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 	@FXML
 	private Button btNovo;
 	
-	private ObservableList<Cliente> obsList;
+	private ObservableList<Vendedor> obsList;
 	
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
@@ -87,8 +87,8 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		updateTableView();
 		
 		Stage parentStage = Utils.currentStage(event);
-		Cliente obj = new Cliente();
-		createDialogForm(obj, "/view/FormCliente.fxml", parentStage);
+		Vendedor obj = new Vendedor();
+		createDialogForm(obj, "/view/FormVendedor.fxml", parentStage);
 	}
 	
 	public void setObjBiz(Comercial objBiz) {
@@ -108,30 +108,30 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		tableColumnDataCadastro.setCellValueFactory(new PropertyValueFactory<>("dataCad"));
 		Utils.formatTableColumnDate(tableColumnDataCadastro, "dd/MM/yyyy");
 		tableColumnCpf.setCellValueFactory(new PropertyValueFactory<>("cpf"));
-		tableColumnLimiteCredito.setCellValueFactory(new PropertyValueFactory<>("limiteCredito"));
-		Utils.formatTableColumnDouble(tableColumnLimiteCredito, 2);
+		tableColumnMetaMensal.setCellValueFactory(new PropertyValueFactory<>("metaMensal"));
+		Utils.formatTableColumnDouble(tableColumnMetaMensal, 2);
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
-		tableViewCliente.prefHeightProperty().bind(stage.heightProperty());
+		tableViewVendedor.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
 		}
-		List<Cliente> list = objBiz.listarClientes();
+		List<Vendedor> list = objBiz.listarVendedores();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewCliente.setItems(obsList);
+		tableViewVendedor.setItems(obsList);
 		initRemoveButtons();
 	}
 	
-	private void createDialogForm(Cliente obj, String absoluteName, Stage parentStage) {
+	private void createDialogForm(Vendedor obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 
-			FormClienteController controller = loader.getController();
-			controller.setCliente(obj);
+			FormVendedorController controller = loader.getController();
+			controller.setVendedor(obj);
 			controller.setObjBiz(new Comercial());
 			//controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
@@ -158,10 +158,10 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 	
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnDeletar.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
+		tableColumnDeletar.setCellFactory(param -> new TableCell<Vendedor, Vendedor>() {
 		private final Button button = new Button("deletar");
 			@Override
-			protected void updateItem(Cliente obj, boolean empty) {
+			protected void updateItem(Vendedor obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -173,15 +173,15 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		});
 	}
 	
-	private void removeEntity(Cliente obj) {
-		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o cliente?");
+	private void removeEntity(Vendedor obj) {
+		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o vendedor?");
 		
 		if (result.get() == ButtonType.OK) {
 			if (objBiz == null) {
 				throw new IllegalStateException("ObjBiz está nulo!");
 			}
 			try {
-				objBiz.deletarCliente(obj);
+				objBiz.deletarVendedor(obj);
 				updateTableView();
 			} catch (DbIntegrityException e) {
 				Alerts.showAlert("Erro ao deletar", null, e.getMessage(), AlertType.ERROR);

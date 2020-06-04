@@ -20,7 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
-import model.entities.Cliente;
+import model.entities.Vendedor;
 import model.exceptions.SisComException;
 import model.exceptions.ValidationException;
 import view.listeners.DataChangeListener;
@@ -28,9 +28,9 @@ import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
 
-public class FormClienteController implements Initializable {
+public class FormVendedorController implements Initializable {
 
-	private Cliente entidade;
+	private Vendedor entidade;
 	
 	private Comercial objBiz;
 	
@@ -49,7 +49,7 @@ public class FormClienteController implements Initializable {
 	private TextField txtCpf;
 	
 	@FXML
-	private TextField txtLimiteCredito;
+	private TextField txtMetaMensal;
 	
 	@FXML
 	private Label labelDataCadastro;
@@ -67,7 +67,7 @@ public class FormClienteController implements Initializable {
 	private Label labelErrorCpf;
 	
 	@FXML
-	private Label labelErrorLimiteCredito;
+	private Label labelErrorMetaMensal;
 	
 	@FXML
 	private Button btSalvar;
@@ -75,7 +75,7 @@ public class FormClienteController implements Initializable {
 	@FXML
 	private Button btCancelar;
 	
-	public void setCliente(Cliente entidade) {
+	public void setVendedor(Vendedor entidade) {
 		this.entidade = entidade;
 	}
 	
@@ -115,9 +115,9 @@ public class FormClienteController implements Initializable {
 		}
 	}
 
-	private Cliente getFormData() {
+	private Vendedor getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Cliente obj = new Cliente();
+		Vendedor obj = new Vendedor();
 		
 		ValidationException exception = new ValidationException("Erro na validação");
 		
@@ -143,10 +143,10 @@ public class FormClienteController implements Initializable {
 		}
 		obj.setCpf(txtCpf.getText());
 		
-		if (txtLimiteCredito.getText() == null || txtLimiteCredito.getText().trim().equals("")) {
-			exception.addError("limiteCredito", "Preenchimento obrigatório");
+		if (txtMetaMensal.getText() == null || txtMetaMensal.getText().trim().equals("")) {
+			exception.addError("metaMensal", "Preenchimento obrigatório");
 		}
-		obj.setLimiteCredito(Utils.tryParseToDouble(txtLimiteCredito.getText()));
+		obj.setMetaMensal(Utils.tryParseToDouble(txtMetaMensal.getText()));
 		
 		try {
 			obj.setDataCad(sdf.parse(labelDataCadastro.getText()));
@@ -176,7 +176,7 @@ public class FormClienteController implements Initializable {
 		Constraints.setTextFieldMaxLength(txtTelefone, 20);
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
 		Constraints.setTextFieldInteger(txtCpf);
-		Constraints.setTextFieldDouble(txtLimiteCredito);
+		Constraints.setTextFieldDouble(txtMetaMensal);
 		
 		//initializeComboBoxDepartment();
 	}
@@ -192,7 +192,7 @@ public class FormClienteController implements Initializable {
 		txtEmail.setText(entidade.getEmail());
 		txtCpf.setText(entidade.getCpf());
 		Locale.setDefault(Locale.US);
-		txtLimiteCredito.setText(String.format("%.2f", entidade.getLimiteCredito()));
+		txtMetaMensal.setText(String.format("%.2f", entidade.getMetaMensal()));
 		if (entidade.getDataCad() != null) {
 			labelDataCadastro.setText(sdf.format(entidade.getDataCad()));
 		} else {
@@ -207,6 +207,6 @@ public class FormClienteController implements Initializable {
 		labelErrorTelefone.setText(fields.contains("telefone") ? errors.get("telefone") : "");
 		labelErrorEmail.setText(fields.contains("email") ? errors.get("email") : "");
 		labelErrorCpf.setText(fields.contains("cpf") ? errors.get("cpf") : "");
-		labelErrorLimiteCredito.setText(fields.contains("limiteCredito") ? errors.get("limiteCredito") : "");
+		labelErrorMetaMensal.setText(fields.contains("metaMensal") ? errors.get("metaMensal") : "");
 	}
 }
