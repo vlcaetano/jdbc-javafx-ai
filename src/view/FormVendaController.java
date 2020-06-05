@@ -34,9 +34,16 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormVendaController implements Initializable {
-
+/**
+ * Classe FormVendaController - Controller da view FormVenda.fxml
+ */	
+	
 	private Venda entidade;
 	
 	private Comercial objBiz;
@@ -93,6 +100,10 @@ public class FormVendaController implements Initializable {
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -124,6 +135,9 @@ public class FormVendaController implements Initializable {
 		
 	}
 	
+	/**
+	 * Método para atualizar tabela
+	 */
 	public void updateTableView() {
 		obsListItemVenda = FXCollections.observableArrayList(listaItemVenda);
 		tableViewItens.setItems(obsListItemVenda);
@@ -147,13 +161,21 @@ public class FormVendaController implements Initializable {
 			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
 		}		
 	}
-
+	
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados da venda cadastrados no formulário
+	 * @return objeto Venda
+	 * @throws SisComException
+	 */
 	private Venda getFormData() throws SisComException {
 		Venda obj = new Venda();
 		
@@ -197,6 +219,9 @@ public class FormVendaController implements Initializable {
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para inicializar os campos da view
+	 */
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtQuantidade);
 		tableColumnCodProduto.setCellValueFactory(new PropertyValueFactory<>("codProduto"));
@@ -210,6 +235,10 @@ public class FormVendaController implements Initializable {
 		initializeComboBoxProduto();
 	}
 	
+	/**
+	 * Método para atualizar campos do formulário
+	 * @throws IllegalStateException
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
@@ -220,6 +249,11 @@ public class FormVendaController implements Initializable {
 		comboBoxFormaPag.getSelectionModel().selectFirst();
 	}
 	
+	/**
+	 * Método para preencher os combo box com os dados dos clientes, vendedores,
+	 * produtos e forma de pagamento
+	 * @throws IllegalStateException
+	 */
 	public void loadAssociatedObjects() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está com valor null");
@@ -245,6 +279,9 @@ public class FormVendaController implements Initializable {
 		
 	}
 	
+	/**
+	 * Método para inicializar a combo box do cliente
+	 */
 	private void initializeComboBoxCliente() {
 		Callback<ListView<Cliente>, ListCell<Cliente>> factory = lv -> new ListCell<Cliente>() {
 			@Override
@@ -257,6 +294,9 @@ public class FormVendaController implements Initializable {
 		comboBoxCliente.setButtonCell(factory.call(null));
 	}
 	
+	/**
+	 * Método para inicializar a combo box do vendedor
+	 */
 	private void initializeComboBoxVendedor() {
 		Callback<ListView<Vendedor>, ListCell<Vendedor>> factory = lv -> new ListCell<Vendedor>() {
 			@Override
@@ -269,6 +309,9 @@ public class FormVendaController implements Initializable {
 		comboBoxVendedor.setButtonCell(factory.call(null));
 	}
 	
+	/**
+	 * Método para inicializar a combo box do produto
+	 */
 	private void initializeComboBoxProduto() {
 		Callback<ListView<Produto>, ListCell<Produto>> factory = lv -> new ListCell<Produto>() {
 			@Override
@@ -281,6 +324,9 @@ public class FormVendaController implements Initializable {
 		comboBoxProduto.setButtonCell(factory.call(null));
 	}
 	
+	/**
+	 * Método para criar os botões para retirar produtos da lista
+	 */
 	private void initRemoveButtons() {
 		tableColumnX.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnX.setCellFactory(param -> new TableCell<ItemVenda, ItemVenda>() {
@@ -298,6 +344,10 @@ public class FormVendaController implements Initializable {
 		});
 	}
 	
+	/**
+	 * Método para retirar produto da lista
+	 * @param obj
+	 */
 	private void removeEntity(ItemVenda obj) {
 		listaItemVenda.remove(obj);
 		updateTableView();

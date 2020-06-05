@@ -25,9 +25,15 @@ import model.entities.Cliente;
 import model.exceptions.SisComException;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaEstClienteController  implements Initializable {
-
+/**
+ * Classe ListaEstClienteController - Controller da view ListaEstCliente.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -98,7 +104,10 @@ public class ListaEstClienteController  implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-
+	
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnNomeCliente.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnQtdCompras.setCellValueFactory(new PropertyValueFactory<>("qtdCompras"));
@@ -109,6 +118,9 @@ public class ListaEstClienteController  implements Initializable {
 		tableViewEstCliente.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");

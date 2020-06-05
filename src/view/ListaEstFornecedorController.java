@@ -25,9 +25,15 @@ import model.entities.Fornecedor;
 import model.exceptions.SisComException;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaEstFornecedorController  implements Initializable {
-
+/**
+ * Classe ListaEstFornecedorController - Controller da view ListaEstFornecedor.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -98,7 +104,10 @@ public class ListaEstFornecedorController  implements Initializable {
 	public void initialize(URL url, ResourceBundle rb) {
 		initializeNodes();
 	}
-
+	
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnNomeFornecedor.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnQtdCompras.setCellValueFactory(new PropertyValueFactory<>("qtdCompras"));
@@ -109,6 +118,9 @@ public class ListaEstFornecedorController  implements Initializable {
 		tableViewEstFornecedor.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");

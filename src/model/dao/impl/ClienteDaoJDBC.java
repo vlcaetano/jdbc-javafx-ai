@@ -14,14 +14,24 @@ import db.DbIntegrityException;
 import model.dao.ClienteDao;
 import model.entities.Cliente;
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ClienteDaoJDBC implements ClienteDao {
-
+/**
+ * Classe ClienteDaoJDBC - Métodos para comunicar com o banco de dados
+ */
 	Connection conn;
-	
+	/**
+	 * Criar conexão com o banco de dados
+	 * @param conn
+	 */
 	public ClienteDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
+	
 	
 	@Override
 	public void inserirCliente(Cliente obj) throws SisComException {
@@ -173,6 +183,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar objeto do tipo Cliente
+	 * @param rs
+	 * @return Objeto do tipo Cliente
+	 * @throws SQLException
+	 */
 	private Cliente instanciarCliente(ResultSet rs) throws SQLException {
 		Cliente obj = new Cliente();
 		obj.setCodigo(rs.getInt("CodCliente"));

@@ -41,7 +41,7 @@
             </MenuBar>
             <StackPane prefHeight="224.0" prefWidth="728.0">
                <children>
-                  <Label fx:id="labelRelogio" alignment="CENTER" contentDisplay="CENTER" textAlignment="CENTER" StackPane.alignment="CENTER">
+                  <Label fx:id="labelRelogio" alignment="CENTER" contentDisplay="CENTER" StackPane.alignment="CENTER">
                      <font>
                         <Font size="24.0" />
                      </font>

@@ -36,9 +36,15 @@ import model.exceptions.SisComException;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaVendaController  implements Initializable, DataChangeListener {
-
+/**
+ * Classe ListaVendaController - Controller da view ListaVenda.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -133,6 +139,9 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnCodVenda.setCellValueFactory(new PropertyValueFactory<>("numVenda"));
 		tableColumnNomeCliente.setCellValueFactory(new PropertyValueFactory<>("nomeCliente"));
@@ -147,6 +156,9 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		tableViewVenda.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
@@ -158,6 +170,12 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		initDetailsButtons();
 	}
 	
+	/**
+	 * Método para criar nova janela com formulário
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDialogForm(Venda obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -188,6 +206,9 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		updateTableView();
 	}
 	
+	/**
+	 * Método para criar os botões de deletar
+	 */
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDeletar.setCellFactory(param -> new TableCell<Venda, Venda>() {
@@ -205,6 +226,10 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		});
 	}
 	
+	/**
+	 * Método para deletar venda
+	 * @param obj
+	 */
 	private void removeEntity(Venda obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar a venda?");
 		
@@ -221,6 +246,9 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		}
 	}
 	
+	/**
+	 * Método para criar os botões de detalhes
+	 */
 	private void initDetailsButtons() {
 		tableColumnDetalhes.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDetalhes.setCellFactory(param -> new TableCell<Venda, Venda>() {
@@ -238,6 +266,12 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 		});
 	}
 	
+	/**
+	 * Método para criar janela com os detalhes da venda
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDetails(Venda obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));

@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class Compra implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -17,9 +21,19 @@ public class Compra implements Serializable{
 	private String nomeFornecedor;
 	private Double valorTotal;
 	
+	/**
+	 * Método construtor padrão
+	 */
 	public Compra() {
 	}
 
+	/**
+	 * Método construtor da classe
+	 * @param numCompra
+	 * @param fornecedor
+	 * @param compraItens
+	 * @param dataCompra
+	 */
 	public Compra(Integer numCompra, Fornecedor fornecedor, List<ItemCompra> compraItens, Date dataCompra) {
 		this.numCompra = numCompra;
 		this.fornecedor = fornecedor;

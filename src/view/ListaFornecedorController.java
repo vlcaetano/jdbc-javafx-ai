@@ -33,8 +33,15 @@ import model.entities.Fornecedor;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaFornecedorController  implements Initializable, DataChangeListener {
+/**
+ * Classe ListaFornecedorController - Controller da view ListaFornecedor.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -99,6 +106,9 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -113,6 +123,9 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 		tableViewFornecedor.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
@@ -123,6 +136,12 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 		initRemoveButtons();
 	}
 	
+	/**
+	 * Método para criar nova janela com formulário
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDialogForm(Fornecedor obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -131,17 +150,15 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 			FormFornecedorController controller = loader.getController();
 			controller.setFornecedor(obj);
 			controller.setObjBiz(new Comercial());
-			//controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
-
-			// para carregar uma janela na frente de outra, é necessário um novo stage
+			
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
-			dialogStage.setResizable(false); // não poder alterar o tamanho da janela
+			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
-			dialogStage.initModality(Modality.WINDOW_MODAL); // não pode usar a janela anterior antes de fechar essa
+			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -154,6 +171,9 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 		updateTableView();
 	}
 	
+	/**
+	 * Método para criar os botões de deletar
+	 */
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDeletar.setCellFactory(param -> new TableCell<Fornecedor, Fornecedor>() {
@@ -171,6 +191,10 @@ public class ListaFornecedorController  implements Initializable, DataChangeList
 		});
 	}
 	
+	/**
+	 * Método para deletar fornecedor
+	 * @param obj
+	 */
 	private void removeEntity(Fornecedor obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o fornecedor?");
 		

@@ -5,7 +5,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class Produto implements Comparable<Produto>, Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -17,9 +21,21 @@ public class Produto implements Comparable<Produto>, Serializable{
 	private Integer estoqueMinimo;
 	private Date dataCad;
 	
+	/**
+	 * Método construtor padrão
+	 */
 	public Produto() {
 	}
 
+	/**
+	 * Método construtor da classe
+	 * @param codigo
+	 * @param nome
+	 * @param precoUnitario
+	 * @param estoque
+	 * @param estoqueMinimo
+	 * @param dataCad
+	 */
 	public Produto(Integer codigo, String nome, Double precoUnitario, Integer estoque, Integer estoqueMinimo,
 			Date dataCad) {
 		this.codigo = codigo;

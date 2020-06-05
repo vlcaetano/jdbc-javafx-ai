@@ -33,8 +33,15 @@ import model.entities.Produto;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaProdutoController implements Initializable, DataChangeListener {
+/**
+ * Classe ListaProdutoController - Controller da view ListaProduto.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -112,6 +119,9 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -126,6 +136,9 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		tableViewProduto.prefHeightProperty().bind(stage.heightProperty());
 	}
 
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
@@ -136,6 +149,12 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		initRemoveButtons();
 	}
 	
+	/**
+	 * Método para criar nova janela com formulário
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDialogForm(Produto obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -144,17 +163,15 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 			FormProdutoController controller = loader.getController();
 			controller.setProduto(obj);
 			controller.setObjBiz(new Comercial());
-			//controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
-			// para carregar uma janela na frente de outra, é necessário um novo stage
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
-			dialogStage.setResizable(false); // não poder alterar o tamanho da janela
+			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
-			dialogStage.initModality(Modality.WINDOW_MODAL); // não pode usar a janela anterior antes de fechar essa
+			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -167,6 +184,9 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		updateTableView();
 	}
 	
+	/**
+	 * Método para criar os botões de deletar
+	 */
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDeletar.setCellFactory(param -> new TableCell<Produto, Produto>() {
@@ -184,6 +204,10 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 		});
 	}
 
+	/**
+	 * Método para deletar vendedor
+	 * @param obj
+	 */
 	private void removeEntity(Produto obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o produto?");
 		

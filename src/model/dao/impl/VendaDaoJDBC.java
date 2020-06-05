@@ -22,11 +22,20 @@ import model.entities.Cliente;
 import model.entities.ItemVenda;
 import model.entities.Produto;
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class VendaDaoJDBC implements VendaDao {
-
+/**
+ * Classe VendaDaoJDBC - Métodos para comunicar com o banco de dados
+ */
 	Connection conn;
-	
+	/**
+	 * Criar conexão com o banco de dados
+	 * @param conn
+	 */
 	public VendaDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
@@ -76,6 +85,14 @@ public class VendaDaoJDBC implements VendaDao {
 		
 	}
 	
+	/**
+	 * Método para inserir itens da venda no banco de dados
+	 * @param codProduto
+	 * @param codVenda
+	 * @param qtd
+	 * @param valor
+	 * @throws SQLException
+	 */
 	private void criarItemVenda(Integer codProduto, Integer codVenda, Integer qtd, Double valor) throws SQLException {
 		PreparedStatement st = null;
 		
@@ -98,6 +115,12 @@ public class VendaDaoJDBC implements VendaDao {
 		DB.closeStatement(st);
 	}
 
+	/**
+	 * Método para atualizar estoques dos produtos no banco de dados após uma venda
+	 * @param qtd
+	 * @param cod
+	 * @throws SQLException
+	 */
 	private void atualizarEstoque(Integer qtd, Integer cod) throws SQLException {
 		PreparedStatement st = null;
 		st = conn.prepareStatement("UPDATE produto SET Estoque = ? WHERE CodProduto = ?");
@@ -280,7 +303,14 @@ public class VendaDaoJDBC implements VendaDao {
 		}
 	}
 
-
+	/**
+	 * Método para criar uma venda
+	 * @param map
+	 * @param map2
+	 * @param rs
+	 * @return objeto Venda
+	 * @throws SQLException
+	 */
 	private Venda criarVenda(Map<Integer, Vendedor> map, Map<Integer, Cliente> map2, ResultSet rs) throws SQLException {
 		Vendedor vendedor = map.get(rs.getInt("CodVendedor"));
 		if (vendedor == null) {
@@ -298,6 +328,14 @@ public class VendaDaoJDBC implements VendaDao {
 		return obj;
 	}
 
+	/**
+	 * Método para instanciar um objeto do tipo Venda
+	 * @param rs
+	 * @param vendedor
+	 * @param cliente
+	 * @return objeto Venda
+	 * @throws SQLException
+	 */
 	private Venda instanciarVenda(ResultSet rs, Vendedor vendedor, Cliente cliente) throws SQLException {
 		Venda venda = new Venda();
 		venda.setNumVenda(rs.getInt("CodVenda"));
@@ -334,6 +372,12 @@ public class VendaDaoJDBC implements VendaDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar um objeto do tipo Vendedor
+	 * @param rs
+	 * @return objeto Vendedor
+	 * @throws SQLException
+	 */
 	private Vendedor instanciarVendedor(ResultSet rs) throws SQLException {
 		Vendedor vendedor = new Vendedor();
 		vendedor.setCodigo(rs.getInt("CodVendedor"));
@@ -342,6 +386,12 @@ public class VendaDaoJDBC implements VendaDao {
 		return vendedor;
 	}
 	
+	/**
+	 * Método para instanciar um objeto do tipo Cliente
+	 * @param rs
+	 * @return objeto Cliente
+	 * @throws SQLException
+	 */
 	private Cliente instanciarCliente(ResultSet rs) throws SQLException {
 		Cliente cliente = new Cliente();
 		cliente.setCodigo(rs.getInt("CodCliente"));

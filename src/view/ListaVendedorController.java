@@ -33,9 +33,15 @@ import model.entities.Vendedor;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaVendedorController  implements Initializable, DataChangeListener {
-
+/**
+ * Classe ListaVendedorController - Controller da view ListaVendedor.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -100,6 +106,9 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -115,6 +124,9 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 		tableViewVendedor.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
@@ -125,6 +137,12 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 		initRemoveButtons();
 	}
 	
+	/**
+	 * Método para criar nova janela com formulário
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDialogForm(Vendedor obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -156,6 +174,9 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 		updateTableView();
 	}
 	
+	/**
+	 * Método para criar os botões de deletar
+	 */
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDeletar.setCellFactory(param -> new TableCell<Vendedor, Vendedor>() {
@@ -173,6 +194,10 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 		});
 	}
 	
+	/**
+	 * Método para deletar vendedor
+	 * @param obj
+	 */
 	private void removeEntity(Vendedor obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o vendedor?");
 		

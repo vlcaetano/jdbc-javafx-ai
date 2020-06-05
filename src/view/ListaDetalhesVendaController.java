@@ -17,9 +17,15 @@ import javafx.stage.Stage;
 import model.entities.Venda;
 import model.entities.ItemVenda;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaDetalhesVendaController  implements Initializable {
-
+/**
+ * Classe ListaDetalhesVendaController - Controller da view DetalhesVenda.fxml
+ */
 	private Comercial objBiz;
 	
 	private Venda entidade;
@@ -50,6 +56,9 @@ public class ListaDetalhesVendaController  implements Initializable {
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnNomeProduto.setCellValueFactory(new PropertyValueFactory<>("nomeProduto"));
 		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantVenda"));
@@ -60,6 +69,9 @@ public class ListaDetalhesVendaController  implements Initializable {
 		tableViewItemVenda.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");

@@ -3,7 +3,11 @@ package model.entities;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public abstract class Pessoa implements Comparable<Pessoa>, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -14,9 +18,20 @@ public abstract class Pessoa implements Comparable<Pessoa>, Serializable {
 	private String email;
 	private Date dataCad;
 	
+	/**
+	 * Método construtor padrão
+	 */
 	public Pessoa() {
 	}
 
+	/**
+	 * Método construtor da classe
+	 * @param codigo
+	 * @param nome
+	 * @param telefone
+	 * @param email
+	 * @param dataCad
+	 */
 	public Pessoa(Integer codigo, String nome, String telefone, String email, Date dataCad) {
 		this.codigo = codigo;
 		this.nome = nome;

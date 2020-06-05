@@ -26,9 +26,15 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormClienteController implements Initializable {
-
+/**
+ * Classe FormClienteController - Controller da view FormCliente.fxml
+ */
 	private Cliente entidade;
 	
 	private Comercial objBiz;
@@ -82,6 +88,10 @@ public class FormClienteController implements Initializable {
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -106,12 +116,20 @@ public class FormClienteController implements Initializable {
 		}		
 	}
 
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados do cliente cadastrados no formulário
+	 * @return objeto Cliente
+	 * @throws ValidationException
+	 */
 	private Cliente getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Cliente obj = new Cliente();
@@ -168,16 +186,21 @@ public class FormClienteController implements Initializable {
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para limitar o que pode ser digitado em cada campo
+	 */
 	private void initializeNodes() {
 		Constraints.setTextFieldMaxLength(txtNome, 60);
-		Constraints.setTextFieldMaxLength(txtTelefone, 20);
+		Constraints.setTextFieldMaxLength(txtTelefone, 11);
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
 		Constraints.setTextFieldInteger(txtCpf);
 		Constraints.setTextFieldDouble(txtLimiteCredito);
-		
-		//initializeComboBoxDepartment();
 	}
 	
+	/**
+	 * Método para atualizar os dados do formulário
+	 * @throws IllegalStateException
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
@@ -197,6 +220,10 @@ public class FormClienteController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Método para dar set nas Labels de erro do formulário
+	 * @param errors
+	 */
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet(); 
 		

@@ -1,7 +1,11 @@
 package model.entities;
 
 import java.util.Date;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class Fornecedor extends Pessoa {
 
 	private static final long serialVersionUID = 1L;
@@ -12,9 +16,22 @@ public class Fornecedor extends Pessoa {
 	private Integer qtdCompras;
 	private Double vlrTotal;
 	
+	/**
+	 * Método construtor padrão
+	 */
 	public Fornecedor() {
 	}
 	
+	/**
+	 * Método construtor da classe
+	 * @param codigo
+	 * @param nome
+	 * @param telefone
+	 * @param email
+	 * @param dataCad
+	 * @param cnpj
+	 * @param nomeContato
+	 */
 	public Fornecedor(Integer codigo, String nome, String telefone, String email, Date dataCad, String cnpj,
 			String nomeContato) {
 		super(codigo, nome, telefone, email, dataCad);

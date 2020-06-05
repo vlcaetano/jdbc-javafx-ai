@@ -26,17 +26,20 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormProdutoController implements Initializable {
-	
+/**
+ * Classe FormProdutoController - Controller da view FormProduto.fxml
+ */	
 	private Produto entidade;
 	
 	private Comercial objBiz;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
-
-	/*@FXML
-	private TextField txtCodigo;*/
 	
 	@FXML
 	private TextField txtNome;
@@ -49,9 +52,6 @@ public class FormProdutoController implements Initializable {
 	
 	@FXML
 	private TextField txtEstoqueMinimo;
-	
-	/*@FXML
-	private TextField txtDataCadastro;*/
 	
 	@FXML
 	private Label labelDataCadastro;
@@ -82,6 +82,10 @@ public class FormProdutoController implements Initializable {
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -106,18 +110,25 @@ public class FormProdutoController implements Initializable {
 		}		
 	}
 
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados do cliente cadastrados no formulário
+	 * @return objeto Produto
+	 * @throws ValidationException
+	 */
 	private Produto getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Produto obj = new Produto();
 		
 		ValidationException exception = new ValidationException("Erro na validação");
-		//obj.setCodigo(Utils.tryParseToInt(txtCodigo.getText()));
 		obj.setCodigo(null);
 
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
@@ -163,23 +174,26 @@ public class FormProdutoController implements Initializable {
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para limitar o que pode ser digitado em cada campo
+	 */
 	private void initializeNodes() {
-		//Constraints.setTextFieldInteger(txtCodigo);
 		Constraints.setTextFieldMaxLength(txtNome, 60);
 		Constraints.setTextFieldDouble(txtPrecoUnitario);
 		Constraints.setTextFieldInteger(txtEstoque);
 		Constraints.setTextFieldInteger(txtEstoqueMinimo);
-		
-		//initializeComboBoxDepartment();
 	}
 	
+	/**
+	 * Método para atualizar os dados do formulário
+	 * @throws IllegalStateException
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		
-		//txtCodigo.setText(String.valueOf(entidade.getCodigo()));
 		txtNome.setText(entidade.getNome());
 		Locale.setDefault(Locale.US);
 		txtPrecoUnitario.setText(String.format("%.2f", entidade.getPrecoUnitario()));
@@ -192,6 +206,10 @@ public class FormProdutoController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Método para dar set nas Labels de erro do formulário
+	 * @param errors
+	 */
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet(); 
 		

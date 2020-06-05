@@ -14,11 +14,20 @@ import db.DbIntegrityException;
 import model.dao.FornecedorDao;
 import model.entities.Fornecedor;
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FornecedorDaoJDBC implements FornecedorDao {
-
+/**
+ * Classe FornecedorDaoJDBC - Métodos para comunicar com o banco de dados
+ */
 	Connection conn;
-	
+	/**
+	 * Criar conexão com o banco de dados
+	 * @param conn
+	 */
 	public FornecedorDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
@@ -171,6 +180,12 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar objeto do tipo Fornecedor
+	 * @param rs
+	 * @return objeto Fornecedor
+	 * @throws SQLException
+	 */
 	private Fornecedor instanciarFornecedor(ResultSet rs) throws SQLException {
 		Fornecedor obj = new Fornecedor();
 		obj.setCodigo(rs.getInt("CodFornecedor"));
@@ -238,5 +253,4 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 			DB.closeResultSet(rs2);
 		}
 	}
-	
 }

@@ -25,9 +25,15 @@ import model.entities.Vendedor;
 import model.exceptions.SisComException;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaEstVendedorController  implements Initializable {
-
+/**
+ * Classe ListaEstVendedorController - Controller da view ListaEstVendedor.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -99,6 +105,9 @@ public class ListaEstVendedorController  implements Initializable {
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnNomeVendedor.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnQtdVendas.setCellValueFactory(new PropertyValueFactory<>("qtdVendas"));
@@ -109,6 +118,9 @@ public class ListaEstVendedorController  implements Initializable {
 		tableViewEstVendedor.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");

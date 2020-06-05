@@ -26,17 +26,20 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormFornecedorController implements Initializable {
-
-private Fornecedor entidade;
+/**
+ * Classe FormFornecedorController - Controller da view FormFornecedor.fxml
+ */
+	private Fornecedor entidade;
 	
 	private Comercial objBiz;
 	
 	private List<DataChangeListener> dataChangeListeners = new ArrayList<>();
-
-	/*@FXML
-	private TextField txtCodigo;*/
 	
 	@FXML
 	private TextField txtNome;
@@ -85,6 +88,10 @@ private Fornecedor entidade;
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -109,18 +116,24 @@ private Fornecedor entidade;
 		}		
 	}
 
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados do fornecedor cadastrados no formulário
+	 * @return objeto Fornecedor
+	 */
 	private Fornecedor getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Fornecedor obj = new Fornecedor();
 		
 		ValidationException exception = new ValidationException("Erro na validação");
-		//obj.setCodigo(Utils.tryParseToInt(txtCodigo.getText()));
 		obj.setCodigo(null);
 
 		if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
@@ -171,16 +184,20 @@ private Fornecedor entidade;
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para limitar o que pode ser digitado em cada campo
+	 */
 	private void initializeNodes() {
 		Constraints.setTextFieldMaxLength(txtNome, 60);
 		Constraints.setTextFieldMaxLength(txtTelefone, 20);
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
 		Constraints.setTextFieldMaxLength(txtCnpj, 30);
 		Constraints.setTextFieldMaxLength(txtNomeContato, 60);
-		
-		//initializeComboBoxDepartment();
 	}
 	
+	/**
+	 * Método para atualizar dados do formulário
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
@@ -200,6 +217,10 @@ private Fornecedor entidade;
 		}
 	}
 	
+	/**
+	 * Método para dar set nas Labels de erro do formulário
+	 * @param errors
+	 */
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet(); 
 		

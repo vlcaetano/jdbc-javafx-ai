@@ -33,9 +33,15 @@ import model.entities.Cliente;
 import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ListaClienteController  implements Initializable, DataChangeListener {
-
+/**
+ * Classe ListaClienteController - Controller da view ListaCliente.fxml
+ */
 	private Comercial objBiz;
 	
 	@FXML
@@ -100,6 +106,9 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		initializeNodes();
 	}
 
+	/**
+	 * Método para inicializar campos da view
+	 */
 	private void initializeNodes() {
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -115,6 +124,9 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		tableViewCliente.prefHeightProperty().bind(stage.heightProperty());
 	}
 	
+	/**
+	 * Método para atualizar dados da tabela
+	 */
 	public void updateTableView() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
@@ -125,6 +137,12 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		initRemoveButtons();
 	}
 	
+	/**
+	 * Método para criar nova janela com formulário
+	 * @param obj
+	 * @param absoluteName
+	 * @param parentStage
+	 */
 	private void createDialogForm(Cliente obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
@@ -133,17 +151,15 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 			FormClienteController controller = loader.getController();
 			controller.setCliente(obj);
 			controller.setObjBiz(new Comercial());
-			//controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
-			// para carregar uma janela na frente de outra, é necessário um novo stage
 			Stage dialogStage = new Stage();
 			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
-			dialogStage.setResizable(false); // não poder alterar o tamanho da janela
+			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
-			dialogStage.initModality(Modality.WINDOW_MODAL); // não pode usar a janela anterior antes de fechar essa
+			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,6 +172,9 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		updateTableView();
 	}
 	
+	/**
+	 * Método para criar os botões de deletar
+	 */
 	private void initRemoveButtons() {
 		tableColumnDeletar.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnDeletar.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
@@ -173,6 +192,10 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 		});
 	}
 	
+	/**
+	 * Método para deletar cliente
+	 * @param obj
+	 */
 	private void removeEntity(Cliente obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Deseja deletar o cliente?");
 		

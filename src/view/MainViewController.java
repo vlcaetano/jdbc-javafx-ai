@@ -23,9 +23,15 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import view.util.Alerts;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class MainViewController implements Initializable {
-
+/**
+ * Classe MainViewController - Controller da view MainView.fxml
+ */
 	@FXML
 	private MenuItem menuItemCliente;
 	
@@ -128,9 +134,12 @@ public class MainViewController implements Initializable {
 		});
 	}
 	
+	/**
+	 * Método para inicializar a MainView com um relógio mostrando a data
+	 */
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss a");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
 		KeyFrame frame = new KeyFrame(Duration.millis(1000), e -> {
 			Date agora = new Date();
 			labelRelogio.setText(sdf.format(agora));
@@ -140,6 +149,11 @@ public class MainViewController implements Initializable {
 		timeline.play();
 	}
 	
+	/**
+	 * Método para carregar uma view
+	 * @param absoluteName
+	 * @param initializingAction
+	 */
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));

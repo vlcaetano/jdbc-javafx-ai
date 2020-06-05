@@ -33,9 +33,15 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormCompraController implements Initializable {
-
+/**
+ * Classe FormCompraController - Controller da view FormCompra.fxml
+ */
 	private Compra entidade;
 	
 	private Comercial objBiz;
@@ -85,6 +91,10 @@ public class FormCompraController implements Initializable {
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -111,6 +121,9 @@ public class FormCompraController implements Initializable {
 		
 	}
 	
+	/**
+	 * Método para atualizar tabela
+	 */
 	public void updateTableView() {
 		obsListItemCompra = FXCollections.observableArrayList(listaItemCompra);
 		tableViewItens.setItems(obsListItemCompra);
@@ -135,12 +148,20 @@ public class FormCompraController implements Initializable {
 		}		
 	}
 
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados da compra cadastrados no formulário
+	 * @return objeto Compra
+	 * @throws SisComException
+	 */
 	private Compra getFormData() throws SisComException {
 		Compra obj = new Compra();
 		
@@ -169,6 +190,9 @@ public class FormCompraController implements Initializable {
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para inicializar os campos da view
+	 */
 	private void initializeNodes() {
 		Constraints.setTextFieldInteger(txtQuantidade);
 		tableColumnCodProduto.setCellValueFactory(new PropertyValueFactory<>("codProduto"));
@@ -181,6 +205,10 @@ public class FormCompraController implements Initializable {
 		initializeComboBoxProduto();
 	}
 	
+	/**
+	 * Método para atualizar campos do formulário
+	 * @throws IllegalStateException
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
@@ -189,6 +217,10 @@ public class FormCompraController implements Initializable {
 		comboBoxProduto.getSelectionModel().selectFirst();
 	}
 	
+	/**
+	 * Método para preencher os combo box com os dados dos fornecedores e produtos
+	 * @throws IllegalStateException
+	 */
 	public void loadAssociatedObjects() {
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está com valor null");
@@ -203,6 +235,9 @@ public class FormCompraController implements Initializable {
 		comboBoxProduto.setItems(obsListProduto);
 	}
 	
+	/**
+	 * Método para inicializar o combo box dos fornecedores
+	 */
 	private void initializeComboBoxFornecedor() {
 		Callback<ListView<Fornecedor>, ListCell<Fornecedor>> factory = lv -> new ListCell<Fornecedor>() {
 			@Override
@@ -215,6 +250,9 @@ public class FormCompraController implements Initializable {
 		comboBoxFornecedor.setButtonCell(factory.call(null));
 	}
 	
+	/**
+	 * Método para inicializar o combo box dos produtos
+	 */
 	private void initializeComboBoxProduto() {
 		Callback<ListView<Produto>, ListCell<Produto>> factory = lv -> new ListCell<Produto>() {
 			@Override
@@ -227,6 +265,9 @@ public class FormCompraController implements Initializable {
 		comboBoxProduto.setButtonCell(factory.call(null));
 	}
 	
+	/**
+	 * Método para criar os botões para retirar produtos da lista
+	 */
 	private void initRemoveButtons() {
 		tableColumnX.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnX.setCellFactory(param -> new TableCell<ItemCompra, ItemCompra>() {
@@ -244,6 +285,10 @@ public class FormCompraController implements Initializable {
 		});
 	}
 	
+	/**
+	 * Método para retirar produto da lista
+	 * @param obj
+	 */
 	private void removeEntity(ItemCompra obj) {
 		listaItemCompra.remove(obj);
 		updateTableView();

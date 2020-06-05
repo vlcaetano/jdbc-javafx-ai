@@ -14,11 +14,20 @@ import db.DbIntegrityException;
 import model.dao.VendedorDao;
 import model.entities.Vendedor;
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class VendedorDaoJDBC implements VendedorDao {
-
+/**
+ * Classe VendedorDaoJDBC - Métodos para comunicar com o banco de dados
+ */
 	Connection conn;
-	
+	/**
+	 * Criar conexão com o banco de dados
+	 * @param conn
+	 */
 	public VendedorDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
@@ -171,6 +180,12 @@ public class VendedorDaoJDBC implements VendedorDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar objeto do tipo Vendedor
+	 * @param rs
+	 * @return objeto Vendedor
+	 * @throws SQLException
+	 */
 	private Vendedor instanciarVendedor(ResultSet rs) throws SQLException {
 		Vendedor obj = new Vendedor();
 		

@@ -20,11 +20,21 @@ import model.entities.Fornecedor;
 import model.entities.ItemCompra;
 import model.entities.Produto;
 import model.exceptions.SisComException;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class CompraDaoJDBC implements CompraDao {
-
+/**
+ * Classe CompraDaoJDBC - Métodos para comunicar com o banco de dados
+ */
 	Connection conn;
 	
+	/**
+	 * Criar conexão com o banco de dados
+	 * @param conn
+	 */
 	public CompraDaoJDBC(Connection conn) {
 		this.conn = conn;
 	}
@@ -70,6 +80,14 @@ public class CompraDaoJDBC implements CompraDao {
 		
 	}
 	
+	/**
+	 * Método para inserir itens da compra no banco de dados
+	 * @param codProduto
+	 * @param codCompra
+	 * @param qtd
+	 * @param valor
+	 * @throws SQLException
+	 */
 	private void criarItemCompra(Integer codProduto, Integer codCompra, Integer qtd, Double valor) throws SQLException {
 		PreparedStatement st = null;
 		
@@ -92,6 +110,12 @@ public class CompraDaoJDBC implements CompraDao {
 		DB.closeStatement(st);
 	}
 
+	/**
+	 * Método para atualizar estoque dos produtos no banco de dados após uma compra
+	 * @param qtd
+	 * @param cod
+	 * @throws SQLException
+	 */
 	private void atualizarEstoque(Integer qtd, Integer cod) throws SQLException {
 		PreparedStatement st = null;
 		st = conn.prepareStatement("UPDATE produto SET Estoque = ? WHERE CodProduto = ?");
@@ -239,6 +263,13 @@ public class CompraDaoJDBC implements CompraDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar um objeto do tipo Compra
+	 * @param rs
+	 * @param fornecedor
+	 * @return objeto Compra
+	 * @throws SQLException
+	 */
 	private Compra instanciarCompra(ResultSet rs, Fornecedor fornecedor) throws SQLException {
 		Compra compra = new Compra();
 		compra.setNumCompra(rs.getInt("CodCompra"));
@@ -273,6 +304,12 @@ public class CompraDaoJDBC implements CompraDao {
 		}
 	}
 
+	/**
+	 * Método para instanciar um objeto do tipo Fornecedor
+	 * @param rs
+	 * @return objeto Fornecedor
+	 * @throws SQLException
+	 */
 	private Fornecedor instanciarFornecedor(ResultSet rs) throws SQLException {
 		Fornecedor fornecedor = new Fornecedor();
 		fornecedor.setCodigo(rs.getInt("CodFornecedor"));

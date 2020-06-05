@@ -1,7 +1,11 @@
 package model.entities;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class ItemVenda implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -13,9 +17,17 @@ public class ItemVenda implements Serializable {
 	private Integer codProduto;
 	private String nomeProduto;
 	
+	/**
+	 * Método construtor padrão
+	 */
 	public ItemVenda() {
 	}
 
+	/**
+	 * Método construtor da classe
+	 * @param produto
+	 * @param quantVenda
+	 */
 	public ItemVenda(Produto produto, Integer quantVenda) {
 		this.produto = produto;
 		this.quantVenda = quantVenda;

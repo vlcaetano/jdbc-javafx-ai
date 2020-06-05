@@ -1,20 +1,35 @@
 package model.exceptions;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class SisComException extends Exception {
-	
+/**
+ * Classe SisComException - 
+ */
 	private static final long serialVersionUID = 1L;
 
 	private String nomeProduto;
 	private Integer estoque;
 	private String mensagemErro;
 	
+	/**
+	 * Método construtor da classe
+	 * @param nomeProduto
+	 * @param estoque
+	 * @param mensagemErro
+	 */
 	public SisComException(String nomeProduto, Integer estoque, String mensagemErro) {
 		super(mensagemErro);
 		this.nomeProduto = nomeProduto;
 		this.estoque = estoque;
-		//this.mensagemErro = mensagemErro;
 	}
 	
+	/**
+	 * Método construtor apenas com mensagem
+	 * @param mensagemErro
+	 */
 	public SisComException(String mensagemErro) {
 		this.mensagemErro = mensagemErro;
 	}

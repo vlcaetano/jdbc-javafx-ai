@@ -26,9 +26,16 @@ import view.listeners.DataChangeListener;
 import view.util.Alerts;
 import view.util.Constraints;
 import view.util.Utils;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class FormVendedorController implements Initializable {
-
+/**
+ * Classe FormVendedorController - Controller da view FormVendedor.fxml
+ */
+	
 	private Vendedor entidade;
 	
 	private Comercial objBiz;
@@ -82,6 +89,10 @@ public class FormVendedorController implements Initializable {
 		this.objBiz = objBiz;
 	}
 	
+	/**
+	 * Método para inscrever como DataChangeListener a classe que chamou essa
+	 * @param listener
+	 */
 	public void subscribeDataChangeListener(DataChangeListener listener) {
 		dataChangeListeners.add(listener);
 	}
@@ -106,12 +117,19 @@ public class FormVendedorController implements Initializable {
 		}		
 	}
 
+	/**
+	 * Método para notificar a classe cadastrada que houve mudança de dados
+	 */
 	private void notifyDataChangeListeners() {
 		for (DataChangeListener listener : dataChangeListeners) {
 			listener.onDataChanged();
 		}
 	}
 
+	/**
+	 * Método para recuperar os dados do vendedor cadastrados no formulário
+	 * @return objeto Vendedor
+	 */
 	private Vendedor getFormData() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		Vendedor obj = new Vendedor();
@@ -168,16 +186,21 @@ public class FormVendedorController implements Initializable {
 		initializeNodes();
 	}
 	
+	/**
+	 * Método para limitar o que pode ser digitado em cada campo
+	 */
 	private void initializeNodes() {
 		Constraints.setTextFieldMaxLength(txtNome, 60);
 		Constraints.setTextFieldMaxLength(txtTelefone, 20);
 		Constraints.setTextFieldMaxLength(txtEmail, 60);
 		Constraints.setTextFieldInteger(txtCpf);
 		Constraints.setTextFieldDouble(txtMetaMensal);
-		
-		//initializeComboBoxDepartment();
 	}
 	
+	/**
+	 * Método para atualizar os dados do formulário
+	 * @throws IllegalStateException
+	 */
 	public void updateFormData() {
 		if (entidade == null) {
 			throw new IllegalStateException("Entidade está com valor null");
@@ -197,6 +220,10 @@ public class FormVendedorController implements Initializable {
 		}
 	}
 	
+	/**
+	 * Método para dar set nas Labels de erro do formulário
+	 * @param errors
+	 */
 	private void setErrorMessages(Map<String, String> errors) {
 		Set<String> fields = errors.keySet(); 
 		
