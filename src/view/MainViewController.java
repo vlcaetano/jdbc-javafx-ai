@@ -2,20 +2,26 @@ package view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 import application.Main;
 import controller.Comercial;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import view.util.Alerts;
 
 public class MainViewController implements Initializable {
@@ -46,6 +52,9 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private MenuItem menuItemEstFornecedores;
+	
+	@FXML
+	private Label labelRelogio;
 	
 	@FXML
 	public void onMenuItemClienteAction() {
@@ -121,6 +130,14 @@ public class MainViewController implements Initializable {
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - hh:mm:ss a");
+		KeyFrame frame = new KeyFrame(Duration.millis(1000), e -> {
+			Date agora = new Date();
+			labelRelogio.setText(sdf.format(agora));
+		});
+		Timeline timeline = new Timeline(frame);
+		timeline.setCycleCount(Timeline.INDEFINITE);
+		timeline.play();
 	}
 	
 	private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
