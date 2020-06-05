@@ -26,6 +26,13 @@
                         <MenuItem fx:id="menuItemCompras" mnemonicParsing="false" onAction="#onMenuItemComprasAction" text="Compras" />
                   </items>
                 </Menu>
+                  <Menu mnemonicParsing="false" text="Estatísticas">
+                    <items>
+                      <MenuItem fx:id="menuItemEstClientes" mnemonicParsing="false" onAction="#onMenuItemEstClientesAction" text="Clientes" />
+                        <MenuItem fx:id="menuItemEstVendedores" mnemonicParsing="false" onAction="#onMenuItemEstVendedoresAction" text="Vendedores" />
+                        <MenuItem fx:id="menuItemEstFornecedores" mnemonicParsing="false" onAction="#onMenuItemEstFornecedoresAction" text="Fornecedores" />
+                    </items>
+                  </Menu>
               </menus>
             </MenuBar>
          </children>

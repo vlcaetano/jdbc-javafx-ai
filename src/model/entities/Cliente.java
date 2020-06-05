@@ -9,6 +9,9 @@ public class Cliente extends Pessoa {
 	private String cpf;
 	private Double limiteCredito;
 	
+	private Integer qtdCompras;
+	private Double vlrTotal;
+	
 	public Cliente() {
 	}
 	
@@ -17,6 +20,22 @@ public class Cliente extends Pessoa {
 		super(codigo, nome, telefone, email, dataCad);
 		this.cpf = cpf;
 		this.limiteCredito = limiteCredito;
+	}
+	
+	public Integer getQtdCompras() {
+		return qtdCompras;
+	}
+	
+	public void setQtdCompras(Integer qtdCompras) {
+		this.qtdCompras = qtdCompras;
+	}
+	
+	public Double getVlrTotal() {
+		return vlrTotal;
+	}
+	
+	public void setVlrTotal(Double vlrTotal) {
+		this.vlrTotal = vlrTotal;
 	}
 	
 	public String getCpf() {

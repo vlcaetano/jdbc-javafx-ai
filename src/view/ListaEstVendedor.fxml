@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefHeight="339.0" prefWidth="652.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.ListaEstVendedorController">
+   <children>
+      <Label text="Estatísticas de vendas dos vendedores">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" top="5.0" />
+         </padding>
+      </Label>
+      <ToolBar prefHeight="40.0" prefWidth="200.0">
+         <items>
+            <DatePicker fx:id="dpInicio" prefHeight="25.0" prefWidth="110.0" promptText="Data inicial" />
+            <DatePicker fx:id="dpFinal" prefWidth="110.0" promptText="Data final" />
+            <Button fx:id="btFiltrar" mnemonicParsing="false" onAction="#onBtFiltrarAction" text="Filtrar por data" />
+            <Button fx:id="btMostrarTodos" mnemonicParsing="false" onAction="#onBtMostrarTodosAction" text="Mostrar todos" />
+         </items>
+      </ToolBar>
+      <TableView fx:id="tableViewEstVendedor" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="tableColumnNomeVendedor" prefWidth="150.0" text="Nome" />
+          <TableColumn fx:id="tableColumnQtdVendas" prefWidth="101.0" text="Qtd Vendas" />
+            <TableColumn fx:id="tableColumnVlrTotal" prefWidth="128.0" text="Valor Total Vendido" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>

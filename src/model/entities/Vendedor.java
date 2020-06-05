@@ -9,6 +9,9 @@ public class Vendedor extends Pessoa {
 	private String cpf;
 	private Double metaMensal;
 	
+	private Integer qtdVendas;
+	private Double vlrTotal;
+	
 	public Vendedor() {
 	}
 
@@ -17,6 +20,22 @@ public class Vendedor extends Pessoa {
 		super(codigo, nome, telefone, email, dataCad);
 		this.cpf = cpf;
 		this.metaMensal = metaMensal;
+	}
+	
+	public Integer getQtdVendas() {
+		return qtdVendas;
+	}
+	
+	public void setQtdVendas(Integer qtdVendas) {
+		this.qtdVendas = qtdVendas;
+	}
+	
+	public Double getVlrTotal() {
+		return vlrTotal;
+	}
+	
+	public void setVlrTotal(Double vlrTotal) {
+		this.vlrTotal = vlrTotal;
 	}
 
 	public String getCpf() {

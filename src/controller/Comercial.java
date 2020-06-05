@@ -74,16 +74,16 @@ public class Comercial {
 		vendedorDao.deletarVendedor(obj);
 	}
 	
-	public List<String> estatisticasFornecedores() {
-		return fornecedorDao.estatisticaFornecedor();
+	public List<Fornecedor> estatisticasFornecedores(String dtInicio, String dtFinal) {
+		return fornecedorDao.estatisticaFornecedor(dtInicio, dtFinal);
 	}
 	
-	public List<String> estatisticasClientes() {
-		return clienteDao.estatisticaCliente();
+	public List<Cliente> estatisticasClientes(String dtInicio, String dtFinal) {
+		return clienteDao.estatisticaCliente(dtInicio, dtFinal);
 	}
 	
-	public List<String> estatisticasVendedores(){
-		return vendedorDao.estatisticaVendedor();
+	public List<Vendedor> estatisticasVendedores(String dtInicio, String dtFinal){
+		return vendedorDao.estatisticaVendedor(dtInicio, dtFinal);
 	}
 	
 	public void inserirProduto(Produto produto) throws SisComException {

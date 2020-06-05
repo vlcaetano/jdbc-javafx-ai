@@ -156,7 +156,7 @@ public class VendaDaoJDBC implements VendaDao {
 	}
 
 	@Override
-	public List<Venda> encontrarVendas() { //deveria fazer retornando itemvenda para usar na tabela no FX
+	public List<Venda> encontrarVendas() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
@@ -168,7 +168,7 @@ public class VendaDaoJDBC implements VendaDao {
 					+ "ON venda.CodVendedor = vendedor.CodVendedor "
 					+ "INNER JOIN cliente "
 					+ "ON venda.CodCliente = cliente.CodCliente "
-					+ "ORDER BY cliente.Nome");
+					+ "ORDER BY venda.DataVenda DESC");
 
 			rs = st.executeQuery();
 			

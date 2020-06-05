@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -62,6 +63,10 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 	
 	@FXML
 	private Button btNovo;
+	@FXML
+	private Button btAbaixoEstoqueMin;
+	@FXML
+	private Button btTodos;
 	
 	private ObservableList<Produto> obsList;
 	
@@ -74,6 +79,32 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 
 	public void setObjBiz(Comercial objBiz) {
 		this.objBiz = objBiz;
+	}
+	
+	@FXML
+	public void onBtAbaixoEstoqueMinAction() {
+		if (objBiz == null) {
+			throw new IllegalStateException("ObjBiz está nulo!");
+		}
+		List<Produto> list = objBiz.listarProdutos();
+		List<Produto> listaAbaixoEstoque = new ArrayList<Produto>();
+		for (Produto p : list) {
+			if (p.getEstoque() < p.getEstoqueMinimo()) {
+				listaAbaixoEstoque.add(p);
+			}
+		}
+		if (!list.isEmpty()) {
+			obsList = FXCollections.observableArrayList(listaAbaixoEstoque);
+			tableViewProduto.setItems(obsList);
+			initRemoveButtons();
+		} else {
+			tableViewProduto.setItems(null);
+		}
+	}
+	
+	@FXML
+	public void onBtTodosAction() {
+		updateTableView();
 	}
 	
 	@Override

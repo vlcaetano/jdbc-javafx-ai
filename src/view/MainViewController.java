@@ -39,6 +39,15 @@ public class MainViewController implements Initializable {
 	private MenuItem menuItemCompras;
 	
 	@FXML
+	private MenuItem menuItemEstClientes;
+	
+	@FXML
+	private MenuItem menuItemEstVendedores;
+	
+	@FXML
+	private MenuItem menuItemEstFornecedores;
+	
+	@FXML
 	public void onMenuItemClienteAction() {
 		loadView("/view/ListaCliente.fxml", (ListaClienteController controller) -> {
 			controller.setObjBiz(new Comercial());
@@ -81,6 +90,30 @@ public class MainViewController implements Initializable {
 	@FXML
 	public void onMenuItemComprasAction() {
 		loadView("/view/ListaCompra.fxml", (ListaCompraController controller) -> {
+			controller.setObjBiz(new Comercial());
+			controller.updateTableView();
+		});
+	}
+	
+	@FXML
+	public void onMenuItemEstClientesAction() {
+		loadView("/view/ListaEstCliente.fxml", (ListaEstClienteController controller) -> {
+			controller.setObjBiz(new Comercial());
+			controller.updateTableView();
+		});
+	}
+	
+	@FXML
+	public void onMenuItemEstVendedoresAction() {
+		loadView("/view/ListaEstVendedor.fxml", (ListaEstVendedorController controller) -> {
+			controller.setObjBiz(new Comercial());
+			controller.updateTableView();
+		});
+	}
+	
+	@FXML
+	public void onMenuItemEstFornecedoresAction() {
+		loadView("/view/ListaEstFornecedor.fxml", (ListaEstFornecedorController controller) -> {
 			controller.setObjBiz(new Comercial());
 			controller.updateTableView();
 		});

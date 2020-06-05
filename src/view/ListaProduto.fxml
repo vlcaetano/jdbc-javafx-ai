@@ -22,16 +22,18 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Novo" />
+            <Button fx:id="btAbaixoEstoqueMin" mnemonicParsing="false" onAction="#onBtAbaixoEstoqueMinAction" text="Abaixo do estoque mín." />
+            <Button fx:id="btTodos" mnemonicParsing="false" onAction="#onBtTodosAction" text="Mostrar todos" />
         </items>
       </ToolBar>
       <TableView fx:id="tableViewProduto" prefHeight="180.0" prefWidth="682.0">
         <columns>
           <TableColumn fx:id="tableColumnCodigo" prefWidth="48.0" text="Código" />
-          <TableColumn fx:id="tableColumnNome" prefWidth="220.0" text="Nome" />
+          <TableColumn fx:id="tableColumnNome" prefWidth="240.0" text="Nome" />
             <TableColumn fx:id="tableColumnPrecoUnitario" prefWidth="62.0" text="Preço Un." />
             <TableColumn fx:id="tableColumnEstoque" prefWidth="61.0" text="Estoque" />
             <TableColumn fx:id="tableColumnEstoqueMinimo" prefWidth="78.0" text="Estoque mín." />
-            <TableColumn fx:id="tableColumnDataCadastro" prefWidth="110.0" text="DataCad" />
+            <TableColumn fx:id="tableColumnDataCadastro" prefWidth="75.0" text="DataCad" />
             <TableColumn fx:id="tableColumnDeletar" prefWidth="61.0" />
         </columns>
       </TableView>

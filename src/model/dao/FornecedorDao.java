@@ -11,7 +11,7 @@ public interface FornecedorDao {
 	void deletarFornecedor(Fornecedor obj);
 	List<Fornecedor> encontrarTodos();
 	Fornecedor encontrarPorCnpj(String cnpj);
-	public List<String> estatisticaFornecedor();
 	
+	public List<Fornecedor> estatisticaFornecedor(String dtInicio, String dtFinal);
 	List<Fornecedor> filtrarCnpj(String cnpj);
 }

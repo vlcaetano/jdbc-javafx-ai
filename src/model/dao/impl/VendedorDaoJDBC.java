@@ -185,20 +185,27 @@ public class VendedorDaoJDBC implements VendedorDao {
 	}
 
 	@Override
-	public List<String> estatisticaVendedor() {
-		List<String> lista = new ArrayList<>();
+	public List<Vendedor> estatisticaVendedor(String dtInicio, String dtFinal) {
+		List<Vendedor> lista = new ArrayList<>();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		PreparedStatement st2 = null;
 		ResultSet rs2 = null;
 		
 		try {
+			String where;
+			if (dtInicio == null && dtFinal == null) {
+				where = "";
+			} else {
+				where = "WHERE venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+			}
 			st = conn.prepareStatement(
 					"SELECT vendedor.CodVendedor, vendedor.Nome, sum(itemvenda.valorVenda) as total " 
 					+ "FROM vendedor INNER JOIN venda " 
 					+ "ON vendedor.CodVendedor = venda.CodVendedor " 
 					+ "INNER JOIN itemvenda "
 					+ "ON itemvenda.CodVenda = venda.CodVenda " 
+					+ where
 					+ "GROUP BY vendedor.CodVendedor, vendedor.Nome "
 					+ "ORDER BY vendedor.Nome");
 			
@@ -215,9 +222,11 @@ public class VendedorDaoJDBC implements VendedorDao {
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {
-					lista.add("Nome: " + rs.getString("Nome") 
-					+ " - Número de vendas realizadas: " + rs2.getInt("Qtd Vendas")
-					+ " - Total das vendas: R$" + String.format("%.2f", rs.getDouble("total")));
+					Vendedor vendedor = new Vendedor();
+					vendedor.setNome(rs.getString("Nome"));
+					vendedor.setQtdVendas(rs2.getInt("Qtd Vendas"));
+					vendedor.setVlrTotal(rs.getDouble("total"));
+					lista.add(vendedor);
 				}
 			}while (rs.next());
 			return lista;

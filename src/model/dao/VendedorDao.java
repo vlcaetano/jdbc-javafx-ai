@@ -11,7 +11,7 @@ public interface VendedorDao {
 	void deletarVendedor(Vendedor obj);
 	List<Vendedor> encontrarTodos();
 	Vendedor encontrarPorCpf(String cpf);
-	public List<String> estatisticaVendedor();
-
+	
+	public List<Vendedor> estatisticaVendedor(String dtInicio, String dtFinal);
 	List<Vendedor> filtrarCpf(String cpf);
 }

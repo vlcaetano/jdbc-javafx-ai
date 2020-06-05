@@ -11,7 +11,7 @@ public interface ClienteDao {
 	void deletarCliente(Cliente obj);
 	List<Cliente> encontrarTodos();
 	Cliente encontrarPorCpf(String cpf);
-	public List<String> estatisticaCliente();
 	
+	public List<Cliente> estatisticaCliente(String dtInicio, String dtFinal);
 	List<Cliente> filtrarCpf(String cpf);
 }

@@ -158,7 +158,7 @@ public class CompraDaoJDBC implements CompraDao {
 					"SELECT compra.*, fornecedor.Nome "
 					+ "FROM compra INNER JOIN fornecedor "
 					+ "ON compra.CodFornecedor = fornecedor.CodFornecedor "
-					+ "ORDER BY fornecedor.Nome");
+					+ "ORDER BY compra.DataCompra DESC");
 					
 			rs = st.executeQuery();
 			

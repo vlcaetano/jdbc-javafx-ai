@@ -9,6 +9,9 @@ public class Fornecedor extends Pessoa {
 	private String cnpj;
 	private String nomeContato;
 	
+	private Integer qtdCompras;
+	private Double vlrTotal;
+	
 	public Fornecedor() {
 	}
 	
@@ -17,6 +20,22 @@ public class Fornecedor extends Pessoa {
 		super(codigo, nome, telefone, email, dataCad);
 		this.cnpj = cnpj;
 		this.nomeContato = nomeContato;
+	}
+	
+	public Integer getQtdCompras() {
+		return qtdCompras;
+	}
+	
+	public void setQtdCompras(Integer qtdCompras) {
+		this.qtdCompras = qtdCompras;
+	}
+	
+	public Double getVlrTotal() {
+		return vlrTotal;
+	}
+	
+	public void setVlrTotal(Double vlrTotal) {
+		this.vlrTotal = vlrTotal;
 	}
 
 	public String getCnpj() {

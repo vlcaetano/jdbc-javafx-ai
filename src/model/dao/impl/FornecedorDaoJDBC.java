@@ -184,20 +184,27 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 	}
 
 	@Override
-	public List<String> estatisticaFornecedor() {
-		List<String> lista = new ArrayList<>();
+	public List<Fornecedor> estatisticaFornecedor(String dtInicio, String dtFinal) {
+		List<Fornecedor> lista = new ArrayList<>();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		PreparedStatement st2 = null;
 		ResultSet rs2 = null;
 		
 		try {
+			String where;
+			if (dtInicio == null && dtFinal == null) {
+				where = "";
+			} else {
+				where = "WHERE compra.DataCompra BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+			}
 			st = conn.prepareStatement(
 					"SELECT fornecedor.CodFornecedor, fornecedor.Nome, sum(itemcompra.valorCompra) as total " 
 					+ "FROM fornecedor INNER JOIN compra " 
 					+ "ON fornecedor.CodFornecedor = compra.CodFornecedor " 
 					+ "INNER JOIN itemcompra "
-					+ "ON itemcompra.CodCompra = compra.CodCompra " 
+					+ "ON itemcompra.CodCompra = compra.CodCompra "
+					+ where
 					+ "GROUP BY fornecedor.CodFornecedor, fornecedor.Nome "
 					+ "ORDER BY fornecedor.Nome");
 			
@@ -214,9 +221,11 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {
-					lista.add("Fornecedor: " + rs.getString("Nome") 
-					+ " - Número de compras: " + rs2.getInt("Qtd Comprada")
-					+ " - Total gasto: R$" + String.format("%.2f", rs.getDouble("total")));
+					Fornecedor fornecedor = new Fornecedor();
+					fornecedor.setNome(rs.getString("Nome"));
+					fornecedor.setQtdCompras(rs2.getInt("Qtd Comprada"));
+					fornecedor.setVlrTotal(rs.getDouble("total"));
+					lista.add(fornecedor);
 				}
 			}while (rs.next());
 			return lista;

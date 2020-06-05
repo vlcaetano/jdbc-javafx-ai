@@ -186,23 +186,31 @@ public class ClienteDaoJDBC implements ClienteDao {
 	}
 
 	@Override
-	public List<String> estatisticaCliente() {
-		List<String> lista = new ArrayList<>();
+	public List<Cliente> estatisticaCliente(String dtInicio, String dtFinal) {
+		List<Cliente> lista = new ArrayList<>();
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		PreparedStatement st2 = null;
 		ResultSet rs2 = null;
 		
 		try {
+			String where;
+			if (dtInicio == null && dtFinal == null) {
+				where = "";
+			} else {
+				where = "WHERE venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+			}
+			
 			st = conn.prepareStatement(
 					"SELECT cliente.CodCliente, cliente.Nome, sum(itemvenda.valorVenda) as total " 
 					+ "FROM cliente INNER JOIN venda " 
 					+ "ON cliente.CodCliente = venda.CodCliente " 
 					+ "INNER JOIN itemvenda "
-					+ "ON itemvenda.CodVenda = venda.CodVenda " 
+					+ "ON itemvenda.CodVenda = venda.CodVenda "
+					+ where
 					+ "GROUP BY cliente.CodCliente, cliente.Nome "
 					+ "ORDER BY cliente.Nome");
-			
+
 			rs = st.executeQuery();
 			if (!rs.next()) {
 				return null;
@@ -216,9 +224,11 @@ public class ClienteDaoJDBC implements ClienteDao {
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {
-					lista.add("Nome: " + rs.getString("Nome") 
-					+ " - Número de compras: " + rs2.getInt("Qtd Compras")
-					+ " - Total gasto: R$" + String.format("%.2f", rs.getDouble("total")));
+					Cliente cliente = new Cliente();
+					cliente.setNome(rs.getString("Nome"));
+					cliente.setQtdCompras(rs2.getInt("Qtd Compras"));
+					cliente.setVlrTotal(rs.getDouble("total"));
+					lista.add(cliente);
 				}
 			} while (rs.next());
 			return lista;
