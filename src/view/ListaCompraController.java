@@ -2,6 +2,9 @@ package view;
 
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -57,6 +61,15 @@ public class ListaCompraController  implements Initializable, DataChangeListener
 	
 	@FXML
 	private Button btNovo;
+	@FXML
+	private DatePicker dpInicio;
+	@FXML
+	private DatePicker dpFinal;
+	
+	@FXML
+	private Button btMostrarTodos;
+	@FXML
+	private Button btFiltrar;
 	
 	private ObservableList<Compra> obsList;
 	
@@ -66,6 +79,46 @@ public class ListaCompraController  implements Initializable, DataChangeListener
 		Stage parentStage = Utils.currentStage(event);
 		Compra obj = new Compra();
 		createDialogForm(obj, "/view/FormCompra.fxml", parentStage);
+	}
+	
+	@FXML
+	public void onBtMostrarTodosAction() {
+		updateTableView();
+		dpInicio.setValue(null);
+		dpFinal.setValue(null);
+	}
+	
+	@FXML
+	public void onBtFiltrarAction() {
+		try {
+			Instant instantInicial = Instant.from(dpInicio.getValue().atStartOfDay(ZoneId.systemDefault()));
+			Instant instantFinal = Instant.from(dpFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
+			
+			if(instantInicial.isAfter(instantFinal)) {
+				throw new SisComException("A data inicial não pode ser depois da data final");
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			String dataInicioStr = sdf.format(Date.from(instantInicial));
+			String dataFinalStr = sdf.format(Date.from(instantFinal));
+			
+			List<Compra> list = objBiz.listarCompras(dataInicioStr, dataFinalStr);
+			if (list != null) {
+				obsList = FXCollections.observableArrayList(list);
+				tableViewCompra.setItems(obsList);
+				initRemoveButtons();
+				initDetailsButtons();
+			} else {
+				tableViewCompra.setItems(null);
+				Alerts.showAlert("Não foram encontrados resultados", 
+						null, "Sem compras registradas no período solicitado", AlertType.INFORMATION);
+			}
+		} catch (NullPointerException e) {
+			Alerts.showAlert("Erro ao converter as datas", null, "Verifique se as datas estão preenchidas", AlertType.WARNING);
+		} catch (SisComException e) {
+			Alerts.showAlert("Erro ao converter as datas", null, e.getMensagemErro(), AlertType.WARNING);
+		}
 	}
 	
 	public void setObjBiz(Comercial objBiz) {
@@ -93,7 +146,7 @@ public class ListaCompraController  implements Initializable, DataChangeListener
 		if (objBiz == null) {
 			throw new IllegalStateException("ObjBiz está nulo!");
 		}
-		List<Compra> list = objBiz.listarCompras();
+		List<Compra> list = objBiz.listarCompras(null, null);
 		obsList = FXCollections.observableArrayList(list);
 		tableViewCompra.setItems(obsList);
 		initRemoveButtons();

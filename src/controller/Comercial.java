@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import model.dao.ClienteDao;
@@ -11,7 +9,15 @@ import model.dao.FornecedorDao;
 import model.dao.ProdutoDao;
 import model.dao.VendaDao;
 import model.dao.VendedorDao;
-import model.entities.*;
+import model.entities.Cliente;
+import model.entities.Compra;
+import model.entities.Fornecedor;
+import model.entities.ItemCompra;
+import model.entities.ItemVenda;
+import model.entities.Pessoa;
+import model.entities.Produto;
+import model.entities.Venda;
+import model.entities.Vendedor;
 import model.exceptions.SisComException;
 
 public class Comercial {
@@ -114,29 +120,12 @@ public class Comercial {
 		compraDao.deletarCompra(cod);
 	}
 	
-	public List<Compra> listarCompras() {
-		return compraDao.encontrarCompras();
+	public List<Compra> listarCompras(String dtInicio, String dtFinal) {
+		return compraDao.encontrarCompras(dtInicio, dtFinal);
 	}
 	
 	public List<ItemCompra> listarItemCompras(Integer codCompra) {
 		return compraDao.criarListaItemCompra(codCompra);
-	}
-	
-	public List<Compra> listarComprasPorFornecedor(Date dataInicio, Date dataFinal, String nome){
-		List<Compra> lista = compraDao.encontrarComprasNomeFornecedor(nome);
-		if (lista == null) {
-			return null;
-		}
-		
-		List<Compra> listaPorPeriodo = new ArrayList<>();
-		for (Compra c : lista) {
-			if (c.getDataCompra().compareTo(dataInicio) >= 0 && 
-					c.getDataCompra().compareTo(dataFinal) <= 0) {
-				listaPorPeriodo.add(c);
-			}
-		}
-		listaPorPeriodo.sort((c1, c2) -> c2.getDataCompra().compareTo(c1.getDataCompra()));
-		return listaPorPeriodo;
 	}
 	
 	public void fazerVenda(Venda venda) throws SisComException {
@@ -147,45 +136,11 @@ public class Comercial {
 		vendaDao.deletarVenda(cod);
 	}
 	
-	public List<Venda> listarVendas() {
-		return vendaDao.encontrarVendas();
+	public List<Venda> listarVendas(String dtInicio, String dtFinal) {
+		return vendaDao.encontrarVendas(dtInicio, dtFinal);
 	}
 	
 	public List<ItemVenda> listarItemVendas(Integer codVenda) {
 		return vendaDao.criarListaItemVenda(codVenda);
-	}
-	
-	public List<Venda> listarVendasPorCliente(Date dataInicio, Date dataFinal, String nome){
-		List<Venda> lista = vendaDao.encontrarVendasNomeCliente(nome);
-		if (lista == null) {
-			return null;
-		}
-		
-		List<Venda> listaPorPeriodo = new ArrayList<>();
-		for (Venda v : lista) {
-			if (v.getDataVenda().compareTo(dataInicio) >= 0 && 
-					v.getDataVenda().compareTo(dataFinal) <= 0) {
-				listaPorPeriodo.add(v);
-			}
-		}
-		listaPorPeriodo.sort((c1, c2) -> c2.getDataVenda().compareTo(c1.getDataVenda()));
-		return listaPorPeriodo;
-	}
-	
-	public List<Venda> listarVendasPorVendedor(Date dataInicio, Date dataFinal, String nome){
-		List<Venda> lista = vendaDao.encontrarVendasNomeVendedor(nome);
-		if (lista == null) {
-			return null;
-		}
-		
-		List<Venda> listaPorPeriodo = new ArrayList<>();
-		for (Venda v : lista) {
-			if (v.getDataVenda().compareTo(dataInicio) >= 0 && 
-					v.getDataVenda().compareTo(dataFinal) <= 0) {
-				listaPorPeriodo.add(v);
-			}
-		}
-		listaPorPeriodo.sort((c1, c2) -> c2.getDataVenda().compareTo(c1.getDataVenda()));
-		return listaPorPeriodo;
 	}
 }

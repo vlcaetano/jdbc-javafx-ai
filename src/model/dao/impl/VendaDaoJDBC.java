@@ -156,11 +156,16 @@ public class VendaDaoJDBC implements VendaDao {
 	}
 
 	@Override
-	public List<Venda> encontrarVendas() {
+	public List<Venda> encontrarVendas(String dtInicio, String dtFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
+			String where = "";
+			if (dtInicio != null && dtFinal != null) {
+				where = "WHERE venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "'";
+			}
+			
 			st = conn.prepareStatement(
 					"SELECT venda.*, vendedor.Nome as VendNome, vendedor.Cpf as VendCpf, "
 					+ "cliente.Nome as CliNome, cliente.Cpf as CliCpf "
@@ -168,6 +173,7 @@ public class VendaDaoJDBC implements VendaDao {
 					+ "ON venda.CodVendedor = vendedor.CodVendedor "
 					+ "INNER JOIN cliente "
 					+ "ON venda.CodCliente = cliente.CodCliente "
+					+ where
 					+ "ORDER BY venda.DataVenda DESC");
 
 			rs = st.executeQuery();
@@ -176,10 +182,14 @@ public class VendaDaoJDBC implements VendaDao {
 			Map<Integer, Vendedor> map = new HashMap<>();
 			Map<Integer, Cliente> map2 = new HashMap<>();
 			
-			while (rs.next()) {
+			if (!rs.next()) {
+				return null;
+			}
+			
+			do {
 				Venda obj = criarVenda(map, map2, rs);
 				list.add(obj);
-			}
+			} while (rs.next());
 			return list;
 			
 		} catch (SQLException e) {

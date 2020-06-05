@@ -149,15 +149,21 @@ public class CompraDaoJDBC implements CompraDao {
 	}
 
 	@Override
-	public List<Compra> encontrarCompras() {
+	public List<Compra> encontrarCompras(String dtInicio, String dtFinal) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
 		try {
+			String where = "";
+			if (dtInicio != null && dtFinal != null) {
+				where = "WHERE compra.DataCompra BETWEEN '" + dtInicio + "' AND '" + dtFinal + "'";
+			}
+			
 			st = conn.prepareStatement(
 					"SELECT compra.*, fornecedor.Nome "
 					+ "FROM compra INNER JOIN fornecedor "
 					+ "ON compra.CodFornecedor = fornecedor.CodFornecedor "
+					+ where
 					+ "ORDER BY compra.DataCompra DESC");
 					
 			rs = st.executeQuery();
@@ -165,7 +171,11 @@ public class CompraDaoJDBC implements CompraDao {
 			List<Compra> list = new ArrayList<>();
 			Map<Integer, Fornecedor> map = new HashMap<>();
 			
-			while (rs.next()) {
+			if (!rs.next()) {
+				return null;
+			}
+			
+			do {
 				
 				Fornecedor fornecedor = map.get(rs.getInt("CodFornecedor"));	
 				
@@ -176,7 +186,7 @@ public class CompraDaoJDBC implements CompraDao {
 							
 				Compra obj = instanciarCompra(rs, fornecedor);				
 				list.add(obj);
-			}
+			} while (rs.next());
 			return list;
 			
 		} catch (SQLException e) {

@@ -9,7 +9,7 @@ public interface CompraDao {
 
 	void fazerCompra(Compra compra) throws SisComException;
 	void deletarCompra(Integer cod) throws SisComException;
-	List<Compra> encontrarCompras();
+	List<Compra> encontrarCompras(String dtInicio, String dtFinal);
 	List<ItemCompra> criarListaItemCompra(Integer codCompra);
 	List<Compra> encontrarComprasNomeFornecedor(String nome);
 }
