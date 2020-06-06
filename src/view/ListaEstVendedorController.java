@@ -109,6 +109,9 @@ public class ListaEstVendedorController  implements Initializable {
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnQtdVendas.setStyle("-fx-alignment: CENTER;");
+		tableColumnVlrTotal.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnNomeVendedor.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnQtdVendas.setCellValueFactory(new PropertyValueFactory<>("qtdVendas"));
 		tableColumnVlrTotal.setCellValueFactory(new PropertyValueFactory<>("vlrTotal"));

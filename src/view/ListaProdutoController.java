@@ -123,6 +123,13 @@ public class ListaProdutoController implements Initializable, DataChangeListener
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodigo.setStyle("-fx-alignment: CENTER;");
+		tableColumnPrecoUnitario.setStyle("-fx-alignment: CENTER;");
+		tableColumnDataCadastro.setStyle("-fx-alignment: CENTER;");
+		tableColumnEstoque.setStyle("-fx-alignment: CENTER;");
+		tableColumnEstoqueMinimo.setStyle("-fx-alignment: CENTER;");
+		tableColumnDeletar.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnPrecoUnitario.setCellValueFactory(new PropertyValueFactory<>("precoUnitario"));

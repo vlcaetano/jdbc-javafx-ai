@@ -11,7 +11,11 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
+/**
+ * 
+ * @author Vitor Lima Caetano
+ *
+ */
 public class Main extends Application {
 	
 	private static Scene mainScene;
@@ -38,7 +42,7 @@ public class Main extends Application {
                 return new Task<Boolean>() {
                     @Override
                     protected Boolean call() throws Exception {
-                        Thread.sleep(4000); // Delay de 4s
+                        Thread.sleep(1000); // Delay de 4s
                         return true;
                     }
                 };

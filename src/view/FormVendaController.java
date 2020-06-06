@@ -223,6 +223,10 @@ public class FormVendaController implements Initializable {
 	 * Método para inicializar os campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodProduto.setStyle("-fx-alignment: CENTER;");
+		tableColumnQuantidade.setStyle("-fx-alignment: CENTER;");
+		tableColumnValorVenda.setStyle("-fx-alignment: CENTER;");
+		
 		Constraints.setTextFieldInteger(txtQuantidade);
 		tableColumnCodProduto.setCellValueFactory(new PropertyValueFactory<>("codProduto"));
 		tableColumnNomeProduto.setCellValueFactory(new PropertyValueFactory<>("nomeProduto"));

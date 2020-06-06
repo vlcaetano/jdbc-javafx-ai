@@ -194,6 +194,10 @@ public class FormCompraController implements Initializable {
 	 * Método para inicializar os campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodProduto.setStyle("-fx-alignment: CENTER;");
+		tableColumnQuantidade.setStyle("-fx-alignment: CENTER;");
+		tableColumnValorCompra.setStyle("-fx-alignment: CENTER;");
+		
 		Constraints.setTextFieldInteger(txtQuantidade);
 		tableColumnCodProduto.setCellValueFactory(new PropertyValueFactory<>("codProduto"));
 		tableColumnNomeProduto.setCellValueFactory(new PropertyValueFactory<>("nomeProduto"));

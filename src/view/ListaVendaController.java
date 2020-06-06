@@ -57,7 +57,7 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 	@FXML
 	private TableColumn<Venda, String> tableColumnNomeVendedor;
 	@FXML
-	private TableColumn<Venda, Integer> tableColumnFormaPagamento;
+	private TableColumn<Venda, String> tableColumnFormaPagamento;
 	@FXML
 	private TableColumn<Venda, Date> tableColumnDataVenda;
 	@FXML
@@ -143,10 +143,17 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodVenda.setStyle("-fx-alignment: CENTER;");
+		tableColumnFormaPagamento.setStyle("-fx-alignment: CENTER;");
+		tableColumnDataVenda.setStyle("-fx-alignment: CENTER;");
+		tableColumnValorTotal.setStyle("-fx-alignment: CENTER;");
+		tableColumnDeletar.setStyle("-fx-alignment: CENTER;");
+		tableColumnDetalhes.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnCodVenda.setCellValueFactory(new PropertyValueFactory<>("numVenda"));
 		tableColumnNomeCliente.setCellValueFactory(new PropertyValueFactory<>("nomeCliente"));
 		tableColumnNomeVendedor.setCellValueFactory(new PropertyValueFactory<>("nomeVendedor"));
-		tableColumnFormaPagamento.setCellValueFactory(new PropertyValueFactory<>("formaPagto"));
+		tableColumnFormaPagamento.setCellValueFactory(new PropertyValueFactory<>("formaPagtoStr"));
 		tableColumnDataVenda.setCellValueFactory(new PropertyValueFactory<>("dataVenda"));
 		Utils.formatTableColumnDate(tableColumnDataVenda, "dd/MM/yyyy");
 		tableColumnValorTotal.setCellValueFactory(new PropertyValueFactory<>("valorTotal"));

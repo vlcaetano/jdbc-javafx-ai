@@ -22,6 +22,7 @@ public class Venda implements Serializable{
 	
 	private String nomeCliente;
 	private String nomeVendedor;
+	private String formaPagtoStr;
 	private Double valorTotal;
 	
 	/**
@@ -59,10 +60,19 @@ public class Venda implements Serializable{
 		return nomeVendedor;
 	}
 	
+	public String getFormaPagtoStr() {
+		if (formaPagto == 1) {
+			formaPagtoStr = "Vista";
+		} else {
+			formaPagtoStr = "Prazo";
+		}
+		return formaPagtoStr;
+	}
+	
 	public Double getValorTotal() {
 		valorTotal = 0.0;
 		for (ItemVenda iv : vendaItens) {
-			valorTotal = iv.getValorVenda();
+			valorTotal += iv.getValorVenda();
 		}
 		return valorTotal;
 	}

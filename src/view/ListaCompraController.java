@@ -140,6 +140,12 @@ public class ListaCompraController  implements Initializable, DataChangeListener
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodCompra.setStyle("-fx-alignment: CENTER;");
+		tableColumnDataCompra.setStyle("-fx-alignment: CENTER;");
+		tableColumnValorTotal.setStyle("-fx-alignment: CENTER;");
+		tableColumnDeletar.setStyle("-fx-alignment: CENTER;");
+		tableColumnDetalhes.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnCodCompra.setCellValueFactory(new PropertyValueFactory<>("numCompra"));
 		tableColumnNomeFornecedor.setCellValueFactory(new PropertyValueFactory<>("nomeFornecedor"));
 		tableColumnDataCompra.setCellValueFactory(new PropertyValueFactory<>("dataCompra"));

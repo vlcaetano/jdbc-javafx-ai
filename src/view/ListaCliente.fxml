@@ -29,9 +29,9 @@
       <TableView fx:id="tableViewCliente" prefHeight="200.0" prefWidth="200.0">
         <columns>
           <TableColumn fx:id="tableColumnCodigo" prefWidth="46.0" text="Código" />
-          <TableColumn fx:id="tableColumnNome" prefWidth="70.0" text="Nome" />
+          <TableColumn fx:id="tableColumnNome" prefWidth="100.0" text="Nome" />
             <TableColumn fx:id="tableColumnTelefone" prefWidth="86.0" text="Telefone" />
-            <TableColumn fx:id="tableColumnEmail" prefWidth="110.0" text="Email" />
+            <TableColumn fx:id="tableColumnEmail" prefWidth="120.0" text="Email" />
             <TableColumn fx:id="tableColumnDataCadastro" prefWidth="105.0" text="Data Cadastro" />
             <TableColumn fx:id="tableColumnCpf" text="CPF" />
             <TableColumn fx:id="tableColumnLimiteCredito" prefWidth="93.0" text="Limite Crédito" />

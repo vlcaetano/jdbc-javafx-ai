@@ -60,6 +60,9 @@ public class ListaDetalhesVendaController  implements Initializable {
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnQuantidade.setStyle("-fx-alignment: CENTER;");
+		tableColumnValorVenda.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnNomeProduto.setCellValueFactory(new PropertyValueFactory<>("nomeProduto"));
 		tableColumnQuantidade.setCellValueFactory(new PropertyValueFactory<>("quantVenda"));
 		tableColumnValorVenda.setCellValueFactory(new PropertyValueFactory<>("valorVenda"));

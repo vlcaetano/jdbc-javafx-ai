@@ -110,6 +110,13 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 	 * Método para inicializar campos da view
 	 */
 	private void initializeNodes() {
+		tableColumnCodigo.setStyle("-fx-alignment: CENTER;");
+		tableColumnTelefone.setStyle("-fx-alignment: CENTER;");
+		tableColumnDataCadastro.setStyle("-fx-alignment: CENTER;");
+		tableColumnCpf.setStyle("-fx-alignment: CENTER;");
+		tableColumnLimiteCredito.setStyle("-fx-alignment: CENTER;");
+		tableColumnDeletar.setStyle("-fx-alignment: CENTER;");
+		
 		tableColumnCodigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
 		tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
 		tableColumnTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
