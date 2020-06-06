@@ -28,6 +28,7 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -196,6 +197,7 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 			controller.updateFormData();
 
 			Stage dialogStage = new Stage();
+			dialogStage.getIcons().add(new Image("/view/imagens/carrinhocomprasicon16.png"));
 			dialogStage.setTitle("Dados da venda");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
@@ -290,6 +292,7 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 			controller.updateTableView();
 
 			Stage dialogStage = new Stage();
+			dialogStage.getIcons().add(new Image("/view/imagens/detalhesicon.png"));
 			dialogStage.setTitle("Detalhes da venda");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);

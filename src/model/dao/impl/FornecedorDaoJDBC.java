@@ -207,11 +207,10 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 		ResultSet rs2 = null;
 		
 		try {
-			String where;
-			if (dtInicio == null && dtFinal == null) {
-				where = "";
-			} else {
+			String where = "", and = "";
+			if (dtInicio != null && dtFinal != null) {
 				where = "WHERE compra.DataCompra BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+				and = "AND compra.DataCompra BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
 			}
 			st = conn.prepareStatement(
 					"SELECT fornecedor.CodFornecedor, fornecedor.Nome, sum(itemcompra.valorCompra) as total " 
@@ -232,7 +231,8 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				st2 = conn.prepareStatement(
 						"SELECT count(*) AS 'Qtd Comprada' "
 						+ "FROM compra "
-						+ "WHERE CodFornecedor = " + rs.getInt("CodFornecedor"));
+						+ "WHERE CodFornecedor = " + rs.getInt("CodFornecedor")
+						+ " " + and);
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {

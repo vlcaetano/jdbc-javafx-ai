@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -158,17 +159,17 @@ public class ListaVendedorController  implements Initializable, DataChangeListen
 			FormVendedorController controller = loader.getController();
 			controller.setVendedor(obj);
 			controller.setObjBiz(new Comercial());
-			//controller.loadAssociatedObjects();
 			controller.subscribeDataChangeListener(this);
 			controller.updateFormData();
 
-			// para carregar uma janela na frente de outra, é necessário um novo stage
+			
 			Stage dialogStage = new Stage();
+			dialogStage.getIcons().add(new Image("/view/imagens/pessoaicon.png"));
 			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
-			dialogStage.setResizable(false); // não poder alterar o tamanho da janela
+			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
-			dialogStage.initModality(Modality.WINDOW_MODAL); // não pode usar a janela anterior antes de fechar essa
+			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
 			e.printStackTrace();

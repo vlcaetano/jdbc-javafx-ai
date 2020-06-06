@@ -210,11 +210,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 		ResultSet rs2 = null;
 		
 		try {
-			String where;
-			if (dtInicio == null && dtFinal == null) {
-				where = "";
-			} else {
+			String where = "", and = "";
+			if (dtInicio != null && dtFinal != null) {
 				where = "WHERE venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+				and = "AND venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
 			}
 			
 			st = conn.prepareStatement(
@@ -236,7 +235,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st2 = conn.prepareStatement(
 						"SELECT count(*) as 'Qtd Compras' "
 						+ "FROM venda "
-						+ "WHERE CodCliente = " + rs.getInt("CodCliente"));
+						+ "WHERE CodCliente = " + rs.getInt("CodCliente")
+						+ " " + and);
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {

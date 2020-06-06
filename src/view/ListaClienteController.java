@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -162,6 +163,7 @@ public class ListaClienteController  implements Initializable, DataChangeListene
 			controller.updateFormData();
 
 			Stage dialogStage = new Stage();
+			dialogStage.getIcons().add(new Image("/view/imagens/pessoaicon.png"));
 			dialogStage.setTitle("Dados para cadastro");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);

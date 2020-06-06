@@ -208,12 +208,12 @@ public class VendedorDaoJDBC implements VendedorDao {
 		ResultSet rs2 = null;
 		
 		try {
-			String where;
-			if (dtInicio == null && dtFinal == null) {
-				where = "";
-			} else {
+			String where = "", and = "";
+			if (dtInicio != null && dtFinal != null) {
 				where = "WHERE venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
+				and = "AND venda.DataVenda BETWEEN '" + dtInicio + "' AND '" + dtFinal + "' ";
 			}
+			
 			st = conn.prepareStatement(
 					"SELECT vendedor.CodVendedor, vendedor.Nome, sum(itemvenda.valorVenda) as total " 
 					+ "FROM vendedor INNER JOIN venda " 
@@ -233,7 +233,8 @@ public class VendedorDaoJDBC implements VendedorDao {
 				st2 = conn.prepareStatement(
 						"SELECT count(*) as 'Qtd Vendas' "
 						+ "FROM venda "
-						+ "WHERE CodVendedor = " + rs.getInt("CodVendedor"));
+						+ "WHERE CodVendedor = " + rs.getInt("CodVendedor")
+						+ " " + and);
 				rs2 = st2.executeQuery();
 				
 				if (rs2.next()) {

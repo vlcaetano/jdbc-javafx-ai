@@ -8,6 +8,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -66,6 +67,7 @@ public class Main extends Application {
 			scrollPane.setFitToWidth(true);
 			
 			mainScene = new Scene(scrollPane);
+			primaryStage.getIcons().add(new Image("/view/imagens/carrinhocomprasicon16.png"));
 			primaryStage.setScene(mainScene);
 			primaryStage.setTitle("Controle de Vendas");
 			primaryStage.show();
