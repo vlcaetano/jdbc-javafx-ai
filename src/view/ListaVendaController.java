@@ -104,7 +104,7 @@ public class ListaVendaController  implements Initializable, DataChangeListener 
 			Instant instantFinal = Instant.from(dpFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
 			
 			if(instantInicial.isAfter(instantFinal)) {
-				throw new SisComException("A data inicial não pode ser depois da data final");
+				throw new SisComException("A data inicial não pode ser após a data final");
 			}
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

@@ -104,7 +104,7 @@ public class FormProdutoController implements Initializable {
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		} catch (SisComException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
+			Alerts.showAlert("Erro salvando o produto", null, e.getMensagemErro(), AlertType.ERROR);
 		} catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
 		}		

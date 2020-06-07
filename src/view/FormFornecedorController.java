@@ -112,7 +112,7 @@ public class FormFornecedorController implements Initializable {
 		} catch (ValidationException e) {
 			setErrorMessages(e.getErrors());
 		} catch (SisComException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
+			Alerts.showAlert("Erro salvando o fornecedor", null, e.getMensagemErro(), AlertType.ERROR);
 		}		
 	}
 

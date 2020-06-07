@@ -43,7 +43,7 @@ public class Main extends Application {
                 return new Task<Boolean>() {
                     @Override
                     protected Boolean call() throws Exception {
-                        Thread.sleep(1000); // Delay de 4s
+                        Thread.sleep(4000); // Delay de 4s
                         return true;
                     }
                 };

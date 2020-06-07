@@ -6,7 +6,7 @@ package model.exceptions;
  */
 public class SisComException extends Exception {
 /**
- * Classe SisComException - 
+ * Classe SisComException - Tratamento de erros relacionados ao sistema
  */
 	private static final long serialVersionUID = 1L;
 

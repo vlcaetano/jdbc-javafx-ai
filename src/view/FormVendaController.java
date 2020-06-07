@@ -158,7 +158,7 @@ public class FormVendaController implements Initializable {
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
 		} catch (SisComException e) {
-			Alerts.showAlert("Erro salvando o objeto", null, e.getMensagemErro(), AlertType.ERROR);
+			Alerts.showAlert("Erro salvando a venda", null, e.getMensagemErro(), AlertType.ERROR);
 		}		
 	}
 	

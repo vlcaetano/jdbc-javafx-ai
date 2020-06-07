@@ -140,6 +140,7 @@ public class MainViewController implements Initializable {
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss");
+		labelRelogio.setText(sdf.format(new Date()));
 		KeyFrame frame = new KeyFrame(Duration.millis(1000), e -> {
 			Date agora = new Date();
 			labelRelogio.setText(sdf.format(agora));
